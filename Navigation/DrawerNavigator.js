@@ -1,6 +1,7 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from "../components/Home";
+import Login from "../components/Login"
 import CustomDrawer from '../components/partials/CustomDrawer'
 
 
@@ -20,6 +21,7 @@ const HomeNavigator = () => {
             }}
         >
             <Drawer.Screen name="Tableau de bord" component={Home} />
+            <Drawer.Screen name="Login" component={Login} />
         </Drawer.Navigator>
     )
     
