@@ -26,6 +26,7 @@ import {View, ScrollView} from 'react-native'
 import {Formik} from 'formik'
 import Icon from 'react-native-vector-icons/Ionicons'
 import {default as Fontisto} from 'react-native-vector-icons/Fontisto'
+import KeyboardAvoidingWrapper from './partials/KeyboarAvoidingWrapper'
 
 const {brand, darkLight, primary} = Colors;
 
@@ -36,6 +37,16 @@ class Login extends React.Component{
             animationPath: randomAnimation(),
             hidePassword: true
         }
+
+        // LoginSchema = Yup.object().shape({
+        //     email: Yup.string()
+        //       .email('Invalid email')
+        //       .required('Required'),
+        //     password: Yup.string()
+        //       .min(6, 'Password must be at least 6 characters')
+        //       .max(24, 'Password can be maximum 24 characters')
+        //       .required('Required')
+        //   })
     }
 
     componentDidMount(){
@@ -52,7 +63,7 @@ class Login extends React.Component{
 
     render(){
         return(
-            <ScrollView>
+            <KeyboardAvoidingWrapper>
                 <StyledContainer>
                     <InnerContainer>
                         {/* <PageLogo resizeMode="cover" source={require('../assets/logo.png')}/> */}
@@ -68,9 +79,10 @@ class Login extends React.Component{
                         <SubTitle>Connexion</SubTitle>
                         <Formik
                             initialValues={{email: '', password: ''}}
-                            onSubmit={(values)=>{
+                            onSubmit={async (values)=>{
                                 console.log(values)
                             }}
+                            validator={() => ({})}
                         > 
                             {({handleChange, handleBlur, handleSubmit, values})=>(
                                 <StyledFormArea>
@@ -92,35 +104,35 @@ class Login extends React.Component{
                                         onChangeText={handleChange('password')}
                                         onBlur={handleBlur('password')}
                                         value={values.password}
-                                        secureTextEntry={true}
+                                        secureTextEntry={this.state.hidePassword}
                                         isPassword={true}
                                         hidePassword={this.state.hidePassword}
                                         setHidePassword={this.setHidePassword}
                                     />
                                     <MsgBox>...</MsgBox>
-                                    <StyledButton onChangeText={handleSubmit}>
+                                    <StyledButton onPress={handleSubmit}>
                                         <ButtonText>Se connecter</ButtonText>
                                     </StyledButton>
                                     <Line />
-                                    <StyledButton
+                                    {/* <StyledButton
                                         google={true}
-                                        onChangeText={handleSubmit}
+                                        onPress={handleSubmit}
                                     >
                                         <Fontisto name="google" color={primary} size={25} />
                                         <ButtonText google={true}>Google</ButtonText>
-                                    </StyledButton>
+                                    </StyledButton> */}
                                 </StyledFormArea>
                             )}
                         </Formik>
                     </InnerContainer>
                     <ExtraView>
                         <ExtraText>Don't have an account already?</ExtraText>
-                        <TextLink>
+                        <TextLink onPress={()=>this.props.navigation.replace('Signup')}>
                             <TextLinkContent>Signup</TextLinkContent>
                         </TextLink>
                     </ExtraView>
                 </StyledContainer>
-            </ScrollView>
+            </KeyboardAvoidingWrapper>
         )
     }
 }

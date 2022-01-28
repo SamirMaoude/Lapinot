@@ -3,9 +3,10 @@ import {View, StyleSheet, Text, Image, TouchableOpacity, ImageBackground} from '
 import LottieView from 'lottie-react-native'
 import {randomAnimation} from '../../xlib/XLIB'
 import Icon from 'react-native-vector-icons/Ionicons';
+import {PageTitle, Colors} from './styles'
 
 
-
+const {primary, brand} = Colors
 class Header extends React.Component {
     constructor(props){
         super(props);
@@ -27,12 +28,12 @@ class Header extends React.Component {
             <View style={styles.header}>
                 <View style={{flex:2, flexDirection:'row',alignContent:'center'}}>
                     <TouchableOpacity
-                        style={{}}
+                        style={{justifyContent:'center'}}
                         onPress={() =>this.props.navigation.openDrawer()}
                     >
-                        <Icon name="menu" size={40} color="#fff" />
+                        <Icon name="menu" size={40} color={brand} />
                     </TouchableOpacity>
-                    <Text style={styles.title_text}>Lapinot</Text>
+                    <PageTitle>Lapinot</PageTitle>
                 </View>
                 <View  style={styles.anim}>
                     <LottieView

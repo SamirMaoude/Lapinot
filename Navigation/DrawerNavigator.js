@@ -2,6 +2,7 @@ import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from "../components/Home";
 import Login from "../components/Login"
+import Signup from "../components/Signup"
 import CustomDrawer from '../components/partials/CustomDrawer'
 
 
@@ -15,13 +16,13 @@ const HomeNavigator = () => {
             screenOptions={{
                 headerShown: false,
                 drawerActiveBackgroundColor: '#D3B8A5',
-                drawerLabelStyle:{
-                    color: 'black'
-                }
+                drawerInactiveTintColor: '#D3B8A5',
+                drawerActiveTintColor: 'white'
             }}
         >
             <Drawer.Screen name="Tableau de bord" component={Home} />
             <Drawer.Screen name="Login" component={Login} />
+            <Drawer.Screen name="Signup" component={Signup} />
         </Drawer.Navigator>
     )
     

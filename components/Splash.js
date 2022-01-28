@@ -39,7 +39,7 @@ class Splash extends React.Component {
                     autoPlay
                     loop={false}
                     onAnimationFinish={()=>{
-                        this.props.navigation.replace('Home');
+                        this.props.navigation.replace('Login');
                     }}
                     progress={this.state.progress}
                 />

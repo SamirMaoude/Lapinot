@@ -6,6 +6,8 @@ import Home from '../components/Home'
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeNavigator from './DrawerNavigator'
 import AddRabbit from '../components/AddRabbit'
+import Login from '../components/Login'
+import Signup from '../components/Signup'
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...'])
@@ -35,6 +37,14 @@ export default function MainNavigator(){
                 <Stack.Screen
                     name="AddRabbit"
                     component={AddRabbit}
+                />
+                <Stack.Screen
+                    name="Login"
+                    component={Login}
+                />
+                <Stack.Screen
+                    name="Signup"
+                    component={Signup}
                 />
             </Stack.Navigator>
         </NavigationContainer>
