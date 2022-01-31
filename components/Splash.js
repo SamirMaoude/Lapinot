@@ -2,8 +2,9 @@ import React, {useState} from "react";
 import {View, StyleSheet, Animated, Easing, Text, SafeAreaView} from "react-native"
 import LottieView from 'lottie-react-native'
 import { LogBox } from 'react-native';
-import { randomAnimation } from '../xlib/XLIB'
+import { randomAnimation } from '../utils/Utils'
 LogBox.ignoreLogs(['Warning: ...'])
+import { authentication } from '../firebase/firebase-config'
 
 
 class Splash extends React.Component {
@@ -25,6 +26,17 @@ class Splash extends React.Component {
         }).start();
     }
 
+    navigate = () => {
+        authentication.onAuthStateChanged((user) => {
+            if(user) {
+                this.props.navigation.replace('Home');
+            } else {
+                this.props.navigation.replace('Login');
+            }
+        })
+        
+    }
+
     
 
     render() {
@@ -39,7 +51,7 @@ class Splash extends React.Component {
                     autoPlay
                     loop={false}
                     onAnimationFinish={()=>{
-                        this.props.navigation.replace('Login');
+                        this.navigate()
                     }}
                     progress={this.state.progress}
                 />

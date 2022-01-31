@@ -6,10 +6,6 @@ import {
     PageTitle,
     SubTitle,
     StyledFormArea,
-    LeftIcon,
-    RightIcon,
-    StyledInputLabel,
-    StyledTextInput,
     StyledButton,
     ButtonText,
     MsgBox,
@@ -21,32 +17,71 @@ import {
     TextLinkContent
 } from './partials/styles'
 import LottieView from 'lottie-react-native'
-import {randomAnimation} from '../xlib/XLIB'
-import {View, ScrollView} from 'react-native'
+import {randomAnimation} from '../utils/Utils'
+import {ActivityIndicator} from 'react-native'
 import {Formik} from 'formik'
-import Icon from 'react-native-vector-icons/Ionicons'
-import {default as Fontisto} from 'react-native-vector-icons/Fontisto'
 import KeyboardAvoidingWrapper from './partials/KeyboarAvoidingWrapper'
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { authentication } from "../firebase/firebase-config";
+import { setLanguage, getTranslation } from 'firebase-error-translator'
+import * as yup from 'yup'
+
+import CustomTextInput from './partials/CustomTextInput'
+
+setLanguage('fr')
 
 const {brand, darkLight, primary} = Colors;
+const loginValidationSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email("Veuillez entrer un mail correct svp!")
+      .required('Email obligatoire'),
+    password: yup
+      .string()
+    //   .min(8, ({ min }) => `Password must be at least ${min} characters`)
+      .required('Mot de passe obligatoire'),
+  })
 
 class Login extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             animationPath: randomAnimation(),
-            hidePassword: true
+            hidePassword: true,
+
+            message: '',
+            messageType: ''
         }
 
-        // LoginSchema = Yup.object().shape({
-        //     email: Yup.string()
-        //       .email('Invalid email')
-        //       .required('Required'),
-        //     password: Yup.string()
-        //       .min(6, 'Password must be at least 6 characters')
-        //       .max(24, 'Password can be maximum 24 characters')
-        //       .required('Required')
-        //   })
+        
+    }
+
+    handleLogin = (email, password, setSubmitting) => {
+        this.handleMessage(null)
+        signInWithEmailAndPassword(authentication, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            setSubmitting(false);
+            this.props.navigation.replace('Home')
+            
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // 
+            // TODO: Translate errorMessage
+            this.handleMessage(errorMessage);
+            setSubmitting(false);
+        });      
+        
+    }
+
+    handleMessage = (message, type = 'FAILED') =>{
+        this.setState({
+            message: message,
+            messageType: type
+        })
     }
 
     componentDidMount(){
@@ -79,14 +114,29 @@ class Login extends React.Component{
                         <SubTitle>Connexion</SubTitle>
                         <Formik
                             initialValues={{email: '', password: ''}}
-                            onSubmit={async (values)=>{
-                                console.log(values)
+                            onSubmit={(values, {setSubmitting})=>{
+                                if(values.email == '' || values.password == ''){
+                                    this.handleMessage('Veuillez remplir tous les champs!');
+                                    setSubmitting(false);
+                                } else {
+                                    this.handleLogin(values.email, values.password, setSubmitting);
+                                }
+                                
                             }}
-                            validator={() => ({})}
+                            validationSchema={loginValidationSchema}
                         > 
-                            {({handleChange, handleBlur, handleSubmit, values})=>(
+                            {({
+                                handleChange,
+                                handleBlur,
+                                handleSubmit,
+                                values,
+                                isSubmitting,
+                                errors,
+                                isValid,
+                                touched
+                            })=>(
                                 <StyledFormArea>
-                                    <MyTextInput
+                                    <CustomTextInput
                                         label="Email"
                                         icon="mail"
                                         placeholder="john@doe.com"
@@ -96,7 +146,10 @@ class Login extends React.Component{
                                         value={values.email}
                                         keyboardType="email-address"
                                     />
-                                    <MyTextInput
+                                    {(errors.email && touched.email) &&
+                                        <MsgBox type={this.state.messageType}>{errors.email}</MsgBox>
+                                    }
+                                    <CustomTextInput
                                         label="Mot de passe"
                                         icon="md-lock-closed-outline"
                                         placeholder="* * * * * * * *"
@@ -109,10 +162,17 @@ class Login extends React.Component{
                                         hidePassword={this.state.hidePassword}
                                         setHidePassword={this.setHidePassword}
                                     />
-                                    <MsgBox>...</MsgBox>
-                                    <StyledButton onPress={handleSubmit}>
+                                    {(errors.password && touched.password) &&
+                                        <MsgBox type={this.state.messageType}>{errors.password}</MsgBox>
+                                    }
+                                    <MsgBox type={this.state.messageType}>{this.state.message}</MsgBox>
+                                    {!isSubmitting && <StyledButton onPress={handleSubmit}>
                                         <ButtonText>Se connecter</ButtonText>
-                                    </StyledButton>
+                                    </StyledButton>}
+                                    {isSubmitting && <StyledButton disabled={true}>
+                                        <ActivityIndicator size="large" color={primary}/>
+                                    </StyledButton>}
+                                        
                                     <Line />
                                     {/* <StyledButton
                                         google={true}
@@ -138,27 +198,6 @@ class Login extends React.Component{
 }
 
 
-const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) =>{
-    return(
-        <View>
-            <LeftIcon>
-                <Icon name={icon} size={30} color={brand}/>
-            </LeftIcon>
-            <StyledInputLabel>{label}</StyledInputLabel>
-            <StyledTextInput {...props}/>
-            {isPassword && (
-                <RightIcon
-                    onPress={()=>setHidePassword(!hidePassword)}
-                >
-                    <Icon 
-                        name={hidePassword?'md-eye-off':'md-eye'}
-                        size={30}
-                        color={darkLight}
-                    />
-                </RightIcon>
-            )}
-        </View>
-    );
-};
+
 
 export default Login;

@@ -3,11 +3,15 @@ import {View, StyleSheet, Text, SafeAreaView, TouchableOpacity} from "react-nati
 import Icon from 'react-native-vector-icons/Ionicons'
 import Header from './partials/Header'
 import Boxes from './partials/Boxes'
-
+import {authentication} from '../firebase/firebase-config'
 
 class Home extends React.Component {
     constructor(props){
         super(props);
+    }
+    
+    componentDidMount(){
+
     }
 
     render(){

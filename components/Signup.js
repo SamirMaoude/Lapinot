@@ -2,14 +2,9 @@ import React from "react";
 import {
     StyledContainer,
     InnerContainer,
-    PageLogo,
     PageTitle,
     SubTitle,
     StyledFormArea,
-    LeftIcon,
-    RightIcon,
-    StyledInputLabel,
-    StyledTextInput,
     StyledButton,
     ButtonText,
     MsgBox,
@@ -20,16 +15,40 @@ import {
     TextLink,
     TextLinkContent
 } from './partials/styles'
-import {randomAnimation} from '../xlib/XLIB'
-import {View, ScrollView, TouchableOpacity} from 'react-native'
+import { randomAnimation } from '../utils/Utils'
+import { ActivityIndicator } from 'react-native'
 import {Formik} from 'formik'
-import Icon from 'react-native-vector-icons/Ionicons'
 import KeyboardAvoidingWrapper from "./partials/KeyboarAvoidingWrapper";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { authentication } from "../firebase/firebase-config";
+import * as yup from 'yup'
 
 //DateTimePicker
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const {brand, darkLight, primary} = Colors;
+import CustomTextInput from './partials/CustomTextInput'
+
+const {darkLight, primary} = Colors;
+
+const loginValidationSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email("Veuillez entrer un mail correct svp!")
+      .required('Email obligatoire'),
+    password: yup
+      .string()
+      .min(8, ({ min }) => `Le mot de passe doit contenir au moins ${min} caractères`)
+      .required('Mot de passe obligatoire'),
+    farmName: yup
+      .string()
+      .min(3, ({ min }) => `Le nom doit contenir au moins ${min} caractères`)
+      .required('Nom obligatoire'),
+    confirmPassword: yup
+      .string()
+      .min(8, ({ min }) => `Le mot de passe doit contenir au moins ${min} caractères`)
+      .required('Mot de passe obligatoire'),
+    
+  })
 
 class SignUp extends React.Component{
     constructor(props){
@@ -39,8 +58,47 @@ class SignUp extends React.Component{
             hidePassword: true,
             show: false,
             date: new Date(),
-            dob: undefined
+            dob: undefined,
+            message: '',
+            messageType: ''
         }
+    }
+
+
+    handleSignup = (farmName, email, password, setSubmitting) => {
+        this.handleMessage(null)
+        createUserWithEmailAndPassword(authentication, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+
+            updateProfile(user,{
+                displayName: farmName
+            }).then(() => {
+                setSubmitting(false);
+                this.props.navigation.replace('Home')
+              }).catch((error) => {
+                // An error occurred
+                // ...
+              });
+            
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // 
+            // TODO: Translate errorMessage
+            this.handleMessage(errorMessage);
+            setSubmitting(false);
+        });      
+        
+    }
+
+    handleMessage = (message, type = 'FAILED') =>{
+        this.setState({
+            message: message,
+            messageType: type
+        })
     }
 
     onChange = (event, selectedDate) => {
@@ -92,38 +150,63 @@ class SignUp extends React.Component{
                             initialValues={{
                                 email: '',
                                 password: '',
-                                fullName: '',
-                                dateOfBirth: '',
+                                farmName: '',
+                                // dateOfBirth: '',
                                 confirmPassword: ''
                             }}
-                            onSubmit={(values)=>{
-                                values = {...values, dateOfBirth: this.state.dob}
-                                console.log(values);
+                            onSubmit={(values, {setSubmitting})=>{
+                                if(values.email == '' || values.password == '' || values.farmName =='' || values.confirmPassword == ''){
+                                    this.handleMessage('Veuillez remplir tous les champs!');
+                                    setSubmitting(false);
+                                }
+                                else if(values.password !== values.confirmPassword){
+                                    this.handleMessage('Les mots de passe ne correspondent pas');
+                                    setSubmitting(false);
+                                }
+                                else {
+                                    this.handleSignup(values.farmName,values.email, values.password, setSubmitting);
+                                }
                                 
                             }}
+                            validationSchema={loginValidationSchema}
                         > 
-                            {({handleChange, handleBlur, handleSubmit, values})=>{return(
+                            {({
+                                handleChange,
+                                handleBlur,
+                                handleSubmit,
+                                values,
+                                isSubmitting,
+                                errors,
+                                isValid,
+                                touched
+                            })=>{return(
                                 <StyledFormArea>
-                                    <MyTextInput
-                                        label="Nom complet"
-                                        icon="person"
-                                        placeholder="John Doe"
+                                    <CustomTextInput
+                                        label="Nom de l'élevage"
+                                        icon="home"
+                                        placeholder="Centre des Lapins"
                                         placeholderTextColor={darkLight}
-                                        onChangeText={handleChange('fullName')}
-                                        onBlur={handleBlur('fullName')}
-                                        value={values.fullName}
+                                        onChangeText={handleChange('farmName')}
+                                        onBlur={handleBlur('farmName')}
+                                        value={values.farmName}
                                     />
-                                    <MyTextInput
+                                    {(errors.farmName && touched.farmName) &&
+                                        <MsgBox type={this.state.messageType}>{errors.farmName}</MsgBox>
+                                    }
+                                    <CustomTextInput
                                         label="Email"
                                         icon="mail"
-                                        placeholder="john@doe.com"
+                                        placeholder="contact@lapin.com"
                                         placeholderTextColor={darkLight}
                                         onChangeText={handleChange('email')}
                                         onBlur={handleBlur('email')}
                                         value={values.email}
                                         keyboardType="email-address"
                                     />
-                                    <MyTextInput
+                                    {(errors.email && touched.email) &&
+                                        <MsgBox type={this.state.messageType}>{errors.email}</MsgBox>
+                                    }
+                                    {/* <CustomTextInput
                                         label="Date de naissance"
                                         icon="calendar"
                                         placeholder="JJ - MM - AAAA"
@@ -134,8 +217,8 @@ class SignUp extends React.Component{
                                         isDate={true}
                                         editable={false}
                                         showDatePicker={this.showDatePicker}
-                                    />
-                                    <MyTextInput
+                                    /> */}
+                                    <CustomTextInput
                                         label="Mot de passe"
                                         icon="md-lock-closed-outline"
                                         placeholder="* * * * * * * *"
@@ -148,7 +231,10 @@ class SignUp extends React.Component{
                                         hidePassword={this.state.hidePassword}
                                         setHidePassword={this.setHidePassword}
                                     />
-                                    <MyTextInput
+                                    {(errors.password && touched.password) &&
+                                        <MsgBox type={this.state.messageType}>{errors.password}</MsgBox>
+                                    }
+                                    <CustomTextInput
                                         label="Confirmer mot de passe"
                                         icon="md-lock-closed-outline"
                                         placeholder="* * * * * * * *"
@@ -161,10 +247,16 @@ class SignUp extends React.Component{
                                         hidePassword={this.state.hidePassword}
                                         setHidePassword={this.setHidePassword}
                                     />
-                                    <MsgBox>...</MsgBox>
-                                    <StyledButton onPress={handleSubmit}>
-                                        <ButtonText>Se connecter</ButtonText>
-                                    </StyledButton>
+                                    {(errors.confirmPassword && touched.confirmPassword) &&
+                                        <MsgBox type={this.state.messageType}>{errors.confirmPassword}</MsgBox>
+                                    }
+                                    <MsgBox>{this.state.message}</MsgBox>
+                                    {!isSubmitting && <StyledButton onPress={handleSubmit}>
+                                        <ButtonText>S'inscrire</ButtonText>
+                                    </StyledButton>}
+                                    {isSubmitting && <StyledButton disabled={true}>
+                                        <ActivityIndicator size="large" color={primary}/>
+                                    </StyledButton>}
                                     {/* <Line />
                                     <StyledButton
                                         google={true}
@@ -181,7 +273,11 @@ class SignUp extends React.Component{
                     <ExtraView>
                         <ExtraText>Already have an account?</ExtraText>
                         <TextLink>
-                            <TextLinkContent>Login</TextLinkContent>
+                            <TextLinkContent
+                                onPress={()=>this.props.navigation.replace('Login')}
+                            >
+                                Login
+                            </TextLinkContent>
                         </TextLink>
                     </ExtraView>
                 </StyledContainer>
@@ -191,30 +287,6 @@ class SignUp extends React.Component{
 }
 
 
-const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, isDate, showDatePicker, ...props}) =>{
-    return(
-        <View>
-            <LeftIcon>
-                <Icon name={icon} size={30} color={brand}/>
-            </LeftIcon>
-            <StyledInputLabel>{label}</StyledInputLabel>
-            {!isDate && <StyledTextInput {...props}/>}
-            {isDate && <TouchableOpacity onPress={showDatePicker}>
-                            <StyledTextInput {...props}/>
-                        </TouchableOpacity>}
-            {isPassword && (
-                <RightIcon
-                    onPress={()=>setHidePassword(!hidePassword)}
-                >
-                    <Icon 
-                        name={hidePassword?'md-eye-off':'md-eye'}
-                        size={30}
-                        color={darkLight}
-                    />
-                </RightIcon>
-            )}
-        </View>
-    );
-};
+
 
 export default SignUp;

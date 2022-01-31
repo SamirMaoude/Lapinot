@@ -1,7 +1,7 @@
 import React from 'react'
 import {View, StyleSheet, Text, Image, TouchableOpacity, ImageBackground} from 'react-native'
 import LottieView from 'lottie-react-native'
-import {randomAnimation} from '../../xlib/XLIB'
+import {randomAnimation} from '../../utils/Utils'
 import Icon from 'react-native-vector-icons/Ionicons';
 import {PageTitle, Colors} from './styles'
 
