@@ -12,6 +12,7 @@ class Box extends React.Component{
         return(
             <TouchableOpacity
                 style={styles.box}
+                onPress={()=>this.props.navigation.navigate(this.props.navigateTo)}
             >
                 <View style={styles.inner}>
                     <Text style={styles.title_text}>{title}</Text>

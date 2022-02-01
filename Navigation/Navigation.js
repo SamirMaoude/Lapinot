@@ -8,6 +8,7 @@ import HomeNavigator from './DrawerNavigator'
 import AddRabbit from '../components/AddRabbit'
 import Login from '../components/Login'
 import Signup from '../components/Signup'
+import RabbitList from '../components/RabbitList'
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...'])
@@ -37,6 +38,10 @@ export default function MainNavigator(){
                 <Stack.Screen
                     name="AddRabbit"
                     component={AddRabbit}
+                />
+                <Stack.Screen
+                    name="RabbitList"
+                    component={RabbitList}
                 />
                 <Stack.Screen
                     name="Login"

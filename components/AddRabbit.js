@@ -32,6 +32,7 @@ import { authentication } from "../firebase/firebase-config";
 import * as yup from 'yup'
 import LottieView from 'lottie-react-native'
 import {connect} from 'react-redux'
+import moment from "moment";
 
 //Rabbit
 import { addRabbit, getRabbits, getFemaleRabbits, getMaleRabbits } from "../utils/rabbit-firebase";
@@ -152,6 +153,7 @@ class AddRabbit extends React.Component{
                             }}
                             onSubmit={(values, {setSubmitting})=>{
                                 values = {...values, dateOfBirth: this.state.dob}
+                                
                                 addRabbit(values.rabbitCode, this.state.dob, values.gender, values.fatherId, values.motherId, setSubmitting, this._addRabbitToStore)
                             }}
                             validationSchema={loginValidationSchema}
@@ -187,7 +189,7 @@ class AddRabbit extends React.Component{
                                         placeholderTextColor={darkLight}
                                         onChangeText={handleChange('dateOfBirth')}
                                         onBlur={handleBlur('dateOfBirth')}
-                                        value={this.state.dob ? this.state.dob.toLocaleDateString(): ''}
+                                        value={this.state.dob ? moment(new Date(this.state.dob)).format('DD/MM/YYYY'): ''}
                                         isDate={true}
                                         editable={false}
                                         showDatePicker={this.showDatePicker}
@@ -202,7 +204,7 @@ class AddRabbit extends React.Component{
                                         //     })
                                         // }
                                         label="Sexe"
-                                        data={[{name: "Masculin", id:"M"},{name: "Féminin", id:"F"}]}
+                                        data={[{name: "Mâle", id:"M"},{name: "Femelle", id:"F"}]}
                                     />
                                     <Line />
                                     <CustomPicker
@@ -245,7 +247,7 @@ class AddRabbit extends React.Component{
 
 const mapStateToProps = (state) => {
     return {
-        rabbitsList: state.rabbitManagement.rabbitsList
+        rabbitsList: state.rabbitManager.rabbitsList
     }
 }
 

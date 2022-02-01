@@ -1,6 +1,6 @@
 const initialState = {rabbitsList: []}
 
-function rabbitManagement(state=initialState, action){
+function rabbitManager(state=initialState, action){
     let nextState
     switch(action.type){
         case 'ADD_RABBIT':
@@ -29,4 +29,4 @@ function rabbitManagement(state=initialState, action){
     }
 }
 
-export default rabbitManagement
+export default rabbitManager

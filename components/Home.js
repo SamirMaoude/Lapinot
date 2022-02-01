@@ -19,7 +19,7 @@ class Home extends React.Component {
 
             <SafeAreaView style={styles.homeStyle}>
                 <Header navigation={this.props.navigation}/>
-                <Boxes />
+                <Boxes navigation={this.props.navigation}/>
                 <TouchableOpacity
                     style={styles.floatingButton}
                     onPress={()=>this.props.navigation.navigate('AddRabbit')}

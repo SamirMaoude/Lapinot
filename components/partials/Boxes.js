@@ -11,7 +11,11 @@ class Boxes extends React.Component{
     render(){
         return(
             <ScrollView contentContainerStyle={styles.boxContainer}>
-                <Box title='Lapins'></Box>
+                <Box
+                    title='Lapins'
+                    navigation={this.props.navigation}
+                    navigateTo='RabbitList'
+                ></Box>
                 <Box title='Box 2'></Box>
                 <Box title='Box 3'></Box>
                 <Box title='Box 4'></Box>

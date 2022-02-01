@@ -12,6 +12,8 @@ export const addRabbit = async (rabbitCode, dateOfbirth, gender, fatherId, mothe
         motherId: motherId,
         userId: authentication.currentUser.uid
     }
+    console.log('rabbit')
+    console.log(rabbit)
     await addDoc(rabbitRef,rabbit, { merge: true }).then((docRef)=>{
         _addRabbitToStore({...rabbit, id:docRef.id})
       }).catch((e)=>{
