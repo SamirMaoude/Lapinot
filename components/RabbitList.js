@@ -52,10 +52,23 @@ class RabbitList extends React.Component{
     componentDidMount(){}
 
     _displayDetailForRabbit = (rabbit) => {
-        console.log(rabbit)
         this.props.navigation.navigate('RabbitDetail', {
             rabbit: {...rabbit, dateOfbirth:rabbit.dateOfbirth.toDateString()},
         })
+    }
+
+    _deleteRabbitInStore = (id)=>{
+        const action = {
+            type: 'DELETE_RABBIT',
+            value: {id: id}
+        }
+
+        this.props.dispatch(action)
+
+        this.setState({
+            rabbits: this.props.rabbitsList,
+        })
+
     }
 
     onPressRadioButton = (radioButtonsArray) => {
@@ -134,6 +147,7 @@ class RabbitList extends React.Component{
             })
         }
     }
+    
     render(){
         return(
             <SafeAreaView style={{flex:1}}>
@@ -162,7 +176,7 @@ class RabbitList extends React.Component{
                     data = {this.state.rabbits}
                     extraData={this.state.rabbits}
                     keyExtractor = {(item) => item.id.toString()}
-                    renderItem = {({item}) => <RabbitItem rabbit={item} rabbitsList={this.props.rabbitsList} displayDetailForRabbit={this._displayDetailForRabbit}/>}
+                    renderItem = {({item}) => <RabbitItem rabbit={item} rabbitsList={this.props.rabbitsList} displayDetailForRabbit={this._displayDetailForRabbit} deleteRabbitInStore={this._deleteRabbitInStore}/>}
                     onEndReachedThreshold={1}
                     contentContainerStyle={{ paddingBottom: 20 }}
                 />

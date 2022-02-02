@@ -16,7 +16,16 @@ class Boxes extends React.Component{
                     navigation={this.props.navigation}
                     navigateTo='RabbitList'
                 ></Box>
-                <Box title='Box 2'></Box>
+                <Box
+                    title='Test de compatibilité'
+                    navigation={this.props.navigation}
+                    navigateTo='CompatibilityTest'
+                ></Box>
+                <Box
+                    title='Reproduction'
+                    navigation={this.props.navigation}
+                    navigateTo='Reproduction'
+                ></Box>
                 <Box title='Box 3'></Box>
                 <Box title='Box 4'></Box>
                 <Box title='Box 1'></Box>

@@ -21,7 +21,7 @@ import {
     TextLinkContent
 } from './partials/styles'
 import {randomAnimation} from '../utils/Utils'
-import {ActivityIndicator, View} from 'react-native'
+import {ActivityIndicator, View, Alert} from 'react-native'
 import {Picker} from '@react-native-picker/picker';
 import {Formik} from 'formik'
 import CustomPicker from "./partials/CustomPicker";
@@ -41,7 +41,7 @@ import { addRabbit, setRabbit } from "../utils/rabbit-firebase";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const {brand, darkLight, primary} = Colors;
+const {brand, darkLight, primary, blue} = Colors;
 const genderM = [{name: "Mâle", id:"M"}, {name: "Femelle", id:"F"}]
 const genderF = [{name: "Femelle", id:"F"}, {name: "Mâle", id:"M"}]
 const addRabbitValidationSchema = yup.object().shape({
@@ -96,7 +96,7 @@ class RabbitDetail extends React.Component{
         this.femaleRabbitsList = this.props.rabbitsList.filter((rabbit)=>rabbit.gender==='F' && rabbit.id!==this.rabbit.id);
         this.maleRabbitsList = this.props.rabbitsList.filter((rabbit)=>rabbit.gender==='M' && rabbit.id!==this.rabbit.id)
         
-        if(this.rabbit.fatherId===''){
+        if(this.rabbit.fatherId==='' || this.rabbit.father=='Inconnu'){
             this.maleRabbitsList=[{id:'', rabbitCode:''}, ...this.maleRabbitsList]
         }
         else{
@@ -107,7 +107,7 @@ class RabbitDetail extends React.Component{
             ]
         }
 
-        if(this.rabbit.motherId===''){
+        if(this.rabbit.motherId==='' || this.rabbit.mother=='Inconnue'){
             this.femaleRabbitsList=[{id:'', rabbitCode:''}, ...this.femaleRabbitsList]
         }
         else{
@@ -174,6 +174,18 @@ class RabbitDetail extends React.Component{
 
     }
 
+    _addCoupleToStore = (couple) =>{
+        const action = {
+            type: 'ADD_COUPLE',
+            value: couple
+        }
+
+        this.props.dispatch(action)
+    }
+
+    
+        
+
     
 
 
@@ -211,7 +223,28 @@ class RabbitDetail extends React.Component{
                             onSubmit={(values, {setSubmitting})=>{
                                 values = {...values, dateOfBirth: this.state.dob}
                                 
-                                setRabbit(this.rabbit.id,values.rabbitCode, this.state.dob, values.gender, values.fatherId, values.motherId, setSubmitting, this._setRabbitInStore)
+                                
+                                Alert.alert(
+                                    "Mise à jour",
+                                    "Voulez-vous continuer la mise à jour?",
+                                    [
+                                        {
+                                            text: "Non",
+                                            style: "cancel",
+                                            onPress: ()=>setSubmitting(false)
+                                        },
+                                        {
+                                            text: "Oui",
+                                            onPress: () => setRabbit(this.rabbit.id,values.rabbitCode, this.state.dob, values.gender, values.fatherId, values.motherId, setSubmitting, this._setRabbitInStore, this._addCoupleToStore),
+                                        },
+                                    ],
+                                    {
+                                    cancelable: true,
+                                    onDismiss: () =>
+                                        setSubmitting(false)
+                                    }
+                                );
+                                //
                                 
                             }}
                             validationSchema={addRabbitValidationSchema}
@@ -319,7 +352,7 @@ class RabbitDetail extends React.Component{
                                     />
                                     
                                     
-                                    {!isSubmitting && <StyledButton onPress={handleSubmit}>
+                                    {!isSubmitting && <StyledButton onPress={handleSubmit} style={{backgroundColor: blue}}>
                                         <ButtonText>Mettre à jour</ButtonText>
                                     </StyledButton>}
                                     {isSubmitting && <StyledButton disabled={true}>
@@ -341,7 +374,8 @@ class RabbitDetail extends React.Component{
 
 const mapStateToProps = (state) => {
     return {
-        rabbitsList: state.rabbitManager.rabbitsList
+        rabbitsList: state.rabbitManager.rabbitsList,
+        coupleList: state.coupleManager.coupleList
     }
 }
 

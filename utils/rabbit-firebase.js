@@ -1,9 +1,9 @@
 import { authentication, db } from "../firebase/firebase-config"
-import { doc, setDoc, addDoc, collection, getDocs } from "firebase/firestore/lite"; 
+import { doc, setDoc, addDoc, collection, getDocs, deleteDoc } from "firebase/firestore/lite"; 
 
 const rabbitRef = collection(db, 'rabbits')
 
-export const addRabbit = async (rabbitCode, dateOfbirth, gender, fatherId, motherId, setSubmitting, _addRabbitToStore) => {
+export const addRabbit = async (rabbitCode, dateOfbirth, gender, fatherId, motherId, setSubmitting, _addRabbitToStore, _addCoupleToStore) => {
     let rabbit = {
         rabbitCode: rabbitCode,
         dateOfbirth: dateOfbirth,
@@ -14,7 +14,11 @@ export const addRabbit = async (rabbitCode, dateOfbirth, gender, fatherId, mothe
     }
     
     await addDoc(rabbitRef,rabbit, { merge: true }).then((docRef)=>{
+        if(fatherId!=='' && motherId!=''){
+            _addCoupleToStore({male:fatherId,female:motherId})
+        }
         _addRabbitToStore({...rabbit, id:docRef.id})
+
       }).catch((e)=>{
           console.log(e)
       })
@@ -25,7 +29,7 @@ export const addRabbit = async (rabbitCode, dateOfbirth, gender, fatherId, mothe
     setSubmitting(false);
 };
 
-export const setRabbit = async(id,rabbitCode, dateOfbirth, gender, fatherId, motherId, setSubmitting, _setRabbitInStore) => {
+export const setRabbit = async(id,rabbitCode, dateOfbirth, gender, fatherId, motherId, setSubmitting, _setRabbitInStore, _addCoupleToStore) => {
 
     let rabbit = {
         rabbitCode: rabbitCode,
@@ -37,12 +41,23 @@ export const setRabbit = async(id,rabbitCode, dateOfbirth, gender, fatherId, mot
     }
 
     await setDoc(doc(db,'rabbits',id), rabbit).then((docRef)=>{
+        if(fatherId!=='' && motherId!=''){
+            _addCoupleToStore({fatherId,motherId})
+        }
         _setRabbitInStore({...rabbit, id:id})
     }).catch((e)=>{
         console.log(e)
     })
     setSubmitting(false);
 
+}
+
+export const deleteRabbit = async (id, _deleteRabbitInStore)=>{
+    const docRef = doc(db, 'rabbits', id);
+
+    await deleteDoc(docRef).then((docRef)=>{
+        _deleteRabbitInStore(id);
+    }); 
 }
 
 export const getRabbits = async ()=>{
