@@ -12,8 +12,7 @@ export const addRabbit = async (rabbitCode, dateOfbirth, gender, fatherId, mothe
         motherId: motherId,
         userId: authentication.currentUser.uid
     }
-    console.log('rabbit')
-    console.log(rabbit)
+    
     await addDoc(rabbitRef,rabbit, { merge: true }).then((docRef)=>{
         _addRabbitToStore({...rabbit, id:docRef.id})
       }).catch((e)=>{
@@ -25,6 +24,26 @@ export const addRabbit = async (rabbitCode, dateOfbirth, gender, fatherId, mothe
     
     setSubmitting(false);
 };
+
+export const setRabbit = async(id,rabbitCode, dateOfbirth, gender, fatherId, motherId, setSubmitting, _setRabbitInStore) => {
+
+    let rabbit = {
+        rabbitCode: rabbitCode,
+        dateOfbirth: dateOfbirth,
+        gender: gender,
+        fatherId: fatherId,
+        motherId: motherId,
+        userId: authentication.currentUser.uid
+    }
+
+    await setDoc(doc(db,'rabbits',id), rabbit).then((docRef)=>{
+        _setRabbitInStore({...rabbit, id:id})
+    }).catch((e)=>{
+        console.log(e)
+    })
+    setSubmitting(false);
+
+}
 
 export const getRabbits = async ()=>{
     const rabbitsSnapshot = await getDocs(rabbitRef);

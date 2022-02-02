@@ -2,6 +2,7 @@ const initialState = {rabbitsList: []}
 
 function rabbitManager(state=initialState, action){
     let nextState
+    let rabbitIndex
     switch(action.type){
         case 'ADD_RABBIT':
             
@@ -14,7 +15,7 @@ function rabbitManager(state=initialState, action){
         
             return nextState || state
         case 'DELETE_RABBIT':
-            const rabbitIndex = state.rabbitsList.findIndex(item => item.id===action.value.id)
+            rabbitIndex = state.rabbitsList.findIndex(item => item.id===action.value.id)
 
             if(rabbitIndex !== -1){
                 nextState = {
@@ -23,6 +24,19 @@ function rabbitManager(state=initialState, action){
                 }
             }
             return nextState || state
+        case 'SET_RABBIT':
+            rabbitIndex = state.rabbitsList.findIndex(item => item.id===action.value.id)
+            if(rabbitIndex !== -1){
+                nextState = {
+                    ...state,
+                    rabbitsList: state.rabbitsList
+                }
+
+                nextState.rabbitsList[rabbitIndex] = action.value
+            }
+
+            return nextState || state
+
         default:
 
             return state

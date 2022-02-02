@@ -20,6 +20,7 @@ import {
     TextLink,
     TextLinkContent
 } from './partials/styles'
+import {randomAnimation} from '../utils/Utils'
 import {ActivityIndicator, View} from 'react-native'
 import {Picker} from '@react-native-picker/picker';
 import {Formik} from 'formik'
@@ -34,14 +35,15 @@ import {connect} from 'react-redux'
 import moment from "moment";
 
 //Rabbit
-import { addRabbit, getRabbits, getFemaleRabbits, getMaleRabbits } from "../utils/rabbit-firebase";
+import { addRabbit, setRabbit } from "../utils/rabbit-firebase";
 
 //DateTimePicker
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const {brand, darkLight, primary} = Colors;
-
+const genderM = [{name: "Mâle", id:"M"}, {name: "Femelle", id:"F"}]
+const genderF = [{name: "Femelle", id:"F"}, {name: "Mâle", id:"M"}]
 const addRabbitValidationSchema = yup.object().shape({
     
     rabbitCode: yup
@@ -50,26 +52,26 @@ const addRabbitValidationSchema = yup.object().shape({
       .required('Code obligatoire'),
     
   })
-
- 
-
-class AddRabbit extends React.Component{
+class RabbitDetail extends React.Component{
     constructor(props){
         super(props);
+        this.rabbit = this.props.route.params.rabbit
+        femaleRabbitsList = [];
+        maleRabbitsList = [];
         this.state = {
             show: false,
             date: new Date(),
-            dob: null,
+            dob: new Date(this.rabbit.dateOfbirth),
             gender: '',
             message: '',
             messageType: '',
             
             isLoading: true,
+
             femaleRabbitsList: [],
             maleRabbitsList: []
         }
-        this.femaleRabbitsList = [];
-        this.maleRabbitsList = [];
+        
         
     }
 
@@ -91,43 +93,36 @@ class AddRabbit extends React.Component{
         })
     }
     componentDidMount(){
-        this.femaleRabbitsList = this.props.rabbitsList.filter((rabbit)=>rabbit.gender==='F');
-        this.maleRabbitsList = this.props.rabbitsList.filter((rabbit)=>rabbit.gender==='M')
-
-        this.setState({
-            femaleRabbitsList: [{id:'', rabbitCode:''}, ...this.femaleRabbitsList],
-            maleRabbitsList: [{id:'', rabbitCode:''}, ...this.maleRabbitsList],
-            isLoading: false
-        })
-    }
-
-
-    
-
-    onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || this.state.date
-        this.setState({
-            show: false,
-            date: currentDate,
-            dob: currentDate
-        })
-    }
-
-    showDatePicker = () => {
-        this.setState({
-            show: true,
-        })
-    }
-
-    _addRabbitToStore = (rabbit) => {
-      
-        const action = {
-            type: 'ADD_RABBIT',
-            value: rabbit
+        this.femaleRabbitsList = this.props.rabbitsList.filter((rabbit)=>rabbit.gender==='F' && rabbit.id!==this.rabbit.id);
+        this.maleRabbitsList = this.props.rabbitsList.filter((rabbit)=>rabbit.gender==='M' && rabbit.id!==this.rabbit.id)
+        
+        if(this.rabbit.fatherId===''){
+            this.maleRabbitsList=[{id:'', rabbitCode:''}, ...this.maleRabbitsList]
+        }
+        else{
+            const fatherIndex = this.maleRabbitsList.findIndex(item=>item.id===this.rabbit.fatherId)
+            this.maleRabbitsList = [
+                {...this.maleRabbitsList[fatherIndex]},
+                ...this.maleRabbitsList.filter((item, index)=>index!==fatherIndex)
+            ]
         }
 
-        this.props.dispatch(action)
+        if(this.rabbit.motherId===''){
+            this.femaleRabbitsList=[{id:'', rabbitCode:''}, ...this.femaleRabbitsList]
+        }
+        else{
+            const motherIndex = this.femaleRabbitsList.findIndex(item=>item.id===this.rabbit.motherId)
+            this.femaleRabbitsList = [
+                {...this.femaleRabbitsList[motherIndex]},
+                ...this.femaleRabbitsList.filter((item, index)=>index!==motherIndex)
+            ]
+        }
 
+        this.setState({
+            maleRabbitsList: this.maleRabbitsList,
+            femaleRabbitsList: this.femaleRabbitsList,
+            isLoading: false
+        })
     }
 
     _displayLoading(){
@@ -149,17 +144,52 @@ class AddRabbit extends React.Component{
 
     }
 
+
+    
+
+    onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || this.state.date
+        this.setState({
+            show: false,
+            date: currentDate,
+            dob: currentDate
+        })
+    }
+
+    showDatePicker = () => {
+        this.setState({
+            show: true,
+        })
+    }
+
+    _setRabbitInStore = (rabbit) => {
+      
+        const action = {
+            type: 'SET_RABBIT',
+            value: rabbit
+        }
+
+        this.props.dispatch(action)
+        this.props.navigation.goBack()
+
+    }
+
+    
+
+
     render(){
+        
         return(
             <SafeAreaView style={{flex:1}}>
                 {this._displayLoading()}
             
             <KeyboardAvoidingWrapper>
                 <StyledContainer>
+                    
                     <InnerContainer>
                         {/* <PageLogo resizeMode="cover" source={require('../assets/logo.png')}/> */}
-                        <PageTitle>Lapinot</PageTitle>
-                        <SubTitle>Ajout</SubTitle>
+                        <PageTitle>{this.rabbit.rabbitCode}</PageTitle>
+                        <SubTitle>Détails</SubTitle>
                         {this.state.show && (
                             <DateTimePicker
                                 testID="dateTimePicker"
@@ -172,16 +202,17 @@ class AddRabbit extends React.Component{
                         )}
                         <Formik
                             initialValues={{
-                                rabbitCode: '',
-                                dateOfBirth: '',
-                                gender:'',
+                                rabbitCode: this.rabbit.rabbitCode,
+                                dateOfBirth: this.rabbit.dateOfbirth,
+                                gender: this.rabbit.gender,
                                 fatherId: '',
                                 motherId:''
                             }}
                             onSubmit={(values, {setSubmitting})=>{
                                 values = {...values, dateOfBirth: this.state.dob}
                                 
-                                addRabbit(values.rabbitCode, this.state.dob, values.gender, values.fatherId, values.motherId, setSubmitting, this._addRabbitToStore)
+                                setRabbit(this.rabbit.id,values.rabbitCode, this.state.dob, values.gender, values.fatherId, values.motherId, setSubmitting, this._setRabbitInStore)
+                                
                             }}
                             validationSchema={addRabbitValidationSchema}
                         > 
@@ -231,7 +262,7 @@ class AddRabbit extends React.Component{
                                         //     })
                                         // }
                                         label="Sexe"
-                                        data={[{name: "Mâle", id:"M"},{name: "Femelle", id:"F"}]}
+                                        data={this.rabbit.gender==='M'? genderM : genderF}
                                     />
                                     <Line />
                                     <CustomPicker
@@ -252,9 +283,44 @@ class AddRabbit extends React.Component{
                                         data={this.state.femaleRabbitsList}
                                         
                                     />
+                                    <Line />
+                                    <CustomTextInput
+                                        label="Nombre de reproduction"
+                                        icon="reproduction"
+                                        placeholder="X-007"
+                                        placeholderTextColor={darkLight}
+                                        onChangeText={handleChange('rabbitCode')}
+                                        onBlur={handleBlur('rabbitCode')}
+                                        value='0 reproduction'
+                                        isId={true}
+                                        editable={false}
+                                    />
+
+                                    <CustomTextInput
+                                        label="Moy nés vivants"
+                                        icon="rabbit"
+                                        placeholderTextColor={darkLight}
+                                        onChangeText={handleChange('rabbitCode')}
+                                        onBlur={handleBlur('rabbitCode')}
+                                        value='0 lapins'
+                                        isId={true}
+                                        editable={false}
+                                    />
+
+                                    <CustomTextInput
+                                        label="Moy mort=nés"
+                                        icon="close"
+                                        placeholderTextColor={darkLight}
+                                        onChangeText={handleChange('rabbitCode')}
+                                        onBlur={handleBlur('rabbitCode')}
+                                        value='0 lapins'
+                                        isId={true}
+                                        editable={false}
+                                    />
+                                    
                                     
                                     {!isSubmitting && <StyledButton onPress={handleSubmit}>
-                                        <ButtonText>Ajouter</ButtonText>
+                                        <ButtonText>Mettre à jour</ButtonText>
                                     </StyledButton>}
                                     {isSubmitting && <StyledButton disabled={true}>
                                         <ActivityIndicator size="large" color={primary}/>
@@ -266,10 +332,10 @@ class AddRabbit extends React.Component{
                     </InnerContainer>
                     
                 </StyledContainer>
+                
             </KeyboardAvoidingWrapper>
             </SafeAreaView>
         )
-        
     }
 }
 
@@ -279,4 +345,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(AddRabbit)
+
+
+export default connect(mapStateToProps)(RabbitDetail)

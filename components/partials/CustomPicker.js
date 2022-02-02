@@ -36,7 +36,6 @@ const CustomPicker = ({label, data, selectedItem, setSelectedItem, isRabbit, ...
                     marginBottom: 10
                 }}
             >
-                <Picker.Item key='key0' label='' value='' />
                 {!isRabbit && renderItemList(data)}
                 {isRabbit && rabbitItemList(data)}
             </Picker>

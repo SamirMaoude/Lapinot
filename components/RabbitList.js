@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { StyleSheet, FlatList, ActivityIndicator, View, Text, SafeAreaView } from 'react-native'
 import { connect } from 'react-redux'
 import {StyledContainer} from './partials/styles'
@@ -7,8 +7,9 @@ import CustomTextInput from "./partials/CustomTextInput";
 import { loadBundle } from "firebase/firestore";
 import SuperHeader from "./partials/SuperHeader";
 import RadioGroup, {RadioButtonProps} from 'react-native-radio-buttons-group';
+import { useIsFocused } from '@react-navigation/native';
 
-
+// TODO: Refresh after goBack
 const radioButtonsData = [
     {
         id: '0',
@@ -46,6 +47,15 @@ class RabbitList extends React.Component{
         }
         this.femaleRabbits = this.props.rabbitsList.filter((rabbit)=>rabbit.gender==='F');
         this.maleRabbits = this.props.rabbitsList.filter((rabbit)=>rabbit.gender==='M');
+    }
+
+    componentDidMount(){}
+
+    _displayDetailForRabbit = (rabbit) => {
+        console.log(rabbit)
+        this.props.navigation.navigate('RabbitDetail', {
+            rabbit: {...rabbit, dateOfbirth:rabbit.dateOfbirth.toDateString()},
+        })
     }
 
     onPressRadioButton = (radioButtonsArray) => {
@@ -152,7 +162,7 @@ class RabbitList extends React.Component{
                     data = {this.state.rabbits}
                     extraData={this.state.rabbits}
                     keyExtractor = {(item) => item.id.toString()}
-                    renderItem = {({item}) => <RabbitItem rabbit={item} rabbitsList={this.props.rabbitsList} />}
+                    renderItem = {({item}) => <RabbitItem rabbit={item} rabbitsList={this.props.rabbitsList} displayDetailForRabbit={this._displayDetailForRabbit}/>}
                     onEndReachedThreshold={1}
                     contentContainerStyle={{ paddingBottom: 20 }}
                 />

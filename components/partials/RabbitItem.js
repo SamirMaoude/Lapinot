@@ -12,7 +12,7 @@ const {pink, blue, brand} = Colors;
 class RabbitItem extends React.Component {
     
     render() {
-        const {rabbitsList} = this.props
+        const {rabbitsList, displayDetailForRabbit} = this.props
         const rabbit={
             ...this.props.rabbit,
             dateOfbirth: new Date(this.props.rabbit.dateOfbirth),
@@ -25,6 +25,7 @@ class RabbitItem extends React.Component {
             <FadeIn>
                 <TouchableOpacity
                     style={{height:190, flexDirection: 'row', padding:5}}
+                    onPress={()=>displayDetailForRabbit(rabbit)}
                 >
                     
                     <View style={{
