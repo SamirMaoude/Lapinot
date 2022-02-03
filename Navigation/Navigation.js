@@ -16,6 +16,8 @@ import Reproduction from '../components/Reproduction'
 import AddReproduction from '../components/AddReproduction'
 import Icon from 'react-native-vector-icons/Ionicons'
 import ReproductionDetail from '../components/ReproductionDetail'
+import Statistiques from '../components/Statistiques'
+import RabbitClassement from '../components/RabbitClassement'
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...'])
@@ -97,6 +99,16 @@ export default function MainNavigator(){
                     })}
                     name="Reproduction"
                     component={Reproduction}
+                />
+                <Stack.Screen
+                    options={{ title: 'Statistiques' }}
+                    name="Statistiques"
+                    component={Statistiques}
+                />
+                <Stack.Screen
+                    options={{ title: 'Classement' }}
+                    name="RabbitClassement"
+                    component={RabbitClassement}
                 />
             </Stack.Navigator>
         </NavigationContainer>

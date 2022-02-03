@@ -8,6 +8,7 @@ import { loadBundle } from "firebase/firestore";
 import SuperHeader from "./partials/SuperHeader";
 import RadioGroup, {RadioButtonProps} from 'react-native-radio-buttons-group';
 import { useIsFocused } from '@react-navigation/native';
+import { sorted_rabbits } from "../utils/Utils";
 
 // TODO: Refresh after goBack
 const radioButtonsData = [
@@ -32,24 +33,28 @@ const radioButtonsData = [
 
 
 
-class RabbitList extends React.Component{
+class RabbitClassement extends React.Component{
     constructor(props){
         super(props)
-        this.searchedText =  ""
         this.state = {
             rabbits: this.props.rabbitsList,
             isLoading: false,
-            maleIsSelected: false,
-            femaleIsSelected: false,
-
+            sorted_rabbits: [],
             radioButtons: radioButtonsData
             
         }
-        this.femaleRabbits = this.props.rabbitsList.filter((rabbit)=>rabbit.gender==='F');
-        this.maleRabbits = this.props.rabbitsList.filter((rabbit)=>rabbit.gender==='M');
     }
 
-    componentDidMount(){}
+    componentDidMount(){
+        let list = sorted_rabbits(this.props.rabbitsList, this.props.reproductionsList)
+        this.setState(
+            {
+                sorted_rabbits: list,
+                rabbits: list
+            }
+        )
+        
+    }
 
     _setRabbits = (rabbits)=>{
         this.setState({
@@ -79,17 +84,7 @@ class RabbitList extends React.Component{
 
     onPressRadioButton = (radioButtonsArray) => {
 
-        let rabbits = this.props.rabbitsList
-        if(this.searchedText.length==0){
-            rabbits = rabbits
-        } else{
-            const result = rabbits.filter((rabbit)=> rabbit.rabbitCode.toLowerCase().includes(this.searchedText))
-
-           
-            rabbits = result
-                
-        }
-        
+        let rabbits = this.state.sorted_rabbits
 
         if(radioButtonsArray[1].selected){
             rabbits = rabbits.filter((rabbit)=>rabbit.gender==='M')
@@ -127,44 +122,13 @@ class RabbitList extends React.Component{
 
     }
 
-    _searchRabbits = () =>{
-        
-        this.setState({isLoading: true})
-        let list = this.props.rabbitsList
 
-        if(this.state.radioButtons[1].selected){
-            list = this.maleRabbits
-        }
-        if(this.state.radioButtons[2].selected){
-            list = this.femaleRabbits
-        }
-        if(this.searchedText.length==0){
-            this.setState({
-                rabbits: list,
-                isLoading: false
-            })
-        } else{
-  
-            const result = list.filter((rabbit)=> rabbit.rabbitCode.toLowerCase().includes(this.searchedText))
-
-            this.setState({
-                rabbits: result,
-                isLoading: false
-            })
-        }
-    }
     
     render(){
         return(
             <SafeAreaView style={{flex:1}}>
                 {/* <SuperHeader navigation={this.props.navigation}/> */}
                 <View>
-                    <CustomTextInput
-                        icon='search'
-                        placeholder='Rechercher avec code'
-                        onChangeText={(text) => this._searchTextInputChangedtext(text)}
-                        onSubmitEditing={() => this._searchRabbits()}
-                    />
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Text style={{fontSize: 16, color: 'black', fontWeight: 'bold'}}>Filtre: </Text>
                         <RadioGroup 
@@ -204,7 +168,7 @@ const mapStateToProps = (state) => {
 
 
 
-export default connect(mapStateToProps)(RabbitList)
+export default connect(mapStateToProps)(RabbitClassement)
 
 
 

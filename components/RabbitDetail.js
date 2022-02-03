@@ -126,9 +126,9 @@ class RabbitDetail extends React.Component{
         this.setState({
             maleRabbitsList: this.maleRabbitsList,
             femaleRabbitsList: this.femaleRabbitsList,
-            avg_alive: data.alive,
-            avg_dead: data.deads,
-            total_rep: data.totalRep,
+            avg_alive: this.rabbit.avg_alive,
+            avg_dead: this.rabbit.avg_deads,
+            total_rep: this.rabbit.n,
             isLoading: false
         })
     }

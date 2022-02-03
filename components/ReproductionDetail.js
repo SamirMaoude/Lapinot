@@ -131,7 +131,6 @@ class ReproductionDetail extends React.Component{
         this.femaleRabbitsList = this.props.rabbitsList.filter((rabbit)=>rabbit.gender==='F');
         this.maleRabbitsList = this.props.rabbitsList.filter((rabbit)=>rabbit.gender==='M')
 
-        console.log(this.reproduction)
 
         this.setState({
             femaleRabbitsList: [{id:'', rabbitCode:''}, ...this.femaleRabbitsList],

@@ -59,8 +59,8 @@ class Reproduction extends React.Component{
             <SafeAreaView style={{flex:1}}>
                 
                 <FlatList
-                    data = {this.state.reproductions}
-                    extraData={this.state.reproductions}
+                    data = {this.props.reproductionsList}
+                    extraData={this.props.reproductionsList}
                     keyExtractor = {(item) => item.id.toString()}
                     renderItem = {({item}) => <ReproductionItem reproduction={item} reproductionsList={this.props.reproductionsList} displayDetailForReproduction={this._displayDetailForReproduction} deleteReproductionInStore={this._deleteReproductionInStore} rabbitsList={this.props.rabbitsList}/>}
                     onEndReachedThreshold={1}

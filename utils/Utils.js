@@ -122,3 +122,64 @@ export const rabbitStats = (id, reproductions)=>{
 
     return {alive:Math.ceil(total_alive/n), deads:Math.ceil(total_dead/n), totalRep:n}
 }
+
+
+export const globalStats = (reproductions)=>{
+
+    let total_alive = 0
+    let total_dead = 0
+
+    n = reproductions.length
+    if(n==0){
+        return {alive:0, deads:0}
+    }
+
+    for(let i=0; i<n; i++){
+        total_alive += reproductions[i].alive
+        total_dead += reproductions[i].deads
+    }
+
+    return {alive:Math.ceil(total_alive/n), deads:Math.ceil(total_dead/n)}
+
+}
+
+
+function compare(a,b){
+    if(a.avg_alive>b.avg_alive){
+        return -1
+    }
+
+    if(a.avg_alive==b.avg_alive){
+        if(a.avg_deads<b.avg_deads){
+            return -1
+        }
+
+        if(a.avg_deads==b.avg_deads){
+            if(a.n>b.n){
+                return -1
+            }
+        }
+    }
+    return 0
+}
+export const sorted_rabbits = (rabbits, reproductions)=>{
+
+    let list = []
+
+    for(let rabbit of rabbits){
+        let data = rabbitStats(rabbit.id, reproductions)
+        if(data.totalRep>0)
+        list.push({
+            ...rabbit,
+            avg_alive: data.alive,
+            avg_deads: data.deads,
+            n: data.totalRep
+        })
+    }
+
+    list.sort(
+        compare
+    )
+    
+    return list
+}

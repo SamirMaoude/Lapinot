@@ -81,18 +81,19 @@ class CompatibilityTest extends React.Component{
         setSubmitting(false);
         Alert.alert(
             !this.state.isCompatible?"Lapins compatibles":"Lapins Incompatibles",
-            !this.state.isCompatible?"Voulez-vous les ajouter aux accouplements?":"Reproduction à risque",
-            !this.state.isCompatible?[
-                {
-                    text: "Non",
-                    style: "cancel",
-                    onPress: ()=>{}
-                },
-                {
-                    text: "Oui",
-                    onPress: () => {},
-                },
-            ]:[],
+            !this.state.isCompatible?"Aucun lien de parenté!":"Reproduction à risque",
+            // !this.state.isCompatible?[
+            //     {
+            //         text: "Non",
+            //         style: "cancel",
+            //         onPress: ()=>{}
+            //     },
+            //     {
+            //         text: "Oui",
+            //         onPress: () => {},
+            //     },
+            // ]:[],
+            [],
             {
             cancelable: true,
             onDismiss: () =>

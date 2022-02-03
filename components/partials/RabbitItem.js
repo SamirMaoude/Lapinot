@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, TouchableOpacity, Alert } from 'react-na
 import { color } from 'react-native-reanimated';
 import moment from 'moment'
 import { deleteRabbit } from '../../utils/rabbit-firebase';
+import { rabbitStats } from "../../utils/Utils";
 
 
 import FadeIn from '../../Animations/FadeIn'
@@ -39,12 +40,17 @@ class RabbitItem extends React.Component {
         const {rabbitsList, displayDetailForRabbit, deleteRabbitInStore} = this.props
         const father = rabbitsList.filter((rabbit)=>rabbit.id===this.props.rabbit.fatherId)
         const mother = rabbitsList.filter((rabbit)=>rabbit.id===this.props.rabbit.motherId)
+        const data = rabbitStats(this.props.rabbit.id, this.props.reproductions)
         const rabbit={
             ...this.props.rabbit,
             dateOfbirth: new Date(this.props.rabbit.dateOfbirth),
             
             father: father.length>0?father[0].rabbitCode : 'Inconnu',
             mother: mother.length>0?mother[0].rabbitCode : 'Inconnue',
+            avg_alive: data.alive,
+            avg_deads: data.deads,
+            n: data.totalRep
+
         };
 
 
@@ -54,7 +60,7 @@ class RabbitItem extends React.Component {
         return (
             <FadeIn>
                 <TouchableOpacity
-                    style={{height:200, flexDirection: 'row', padding:5}}
+                    style={{height:250, flexDirection: 'row', padding:5}}
                     onPress={()=>displayDetailForRabbit(rabbit)}
                 >
                     
@@ -101,6 +107,14 @@ class RabbitItem extends React.Component {
                         <View style={styles.container}>
                             <Text style={styles.label}>Mère: </Text>
                             <Text style={styles.value}>{rabbit.mother}</Text>
+                        </View>
+                        <View style={styles.container}>
+                            <Text style={styles.label}>Moyenne nés vivants: </Text>
+                            <Text style={styles.value}>{rabbit.avg_alive}</Text>
+                        </View>
+                        <View style={styles.container}>
+                            <Text style={styles.label}>Moyenne mort-nés: </Text>
+                            <Text style={styles.value}>{rabbit.avg_deads}</Text>
                         </View>
                   </View>
 

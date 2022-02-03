@@ -7,7 +7,6 @@ function coupleManager(state=initialState, action){
     let rabbitIndex
     switch(action.type){
         case 'ADD_COUPLE':
-            console.log(action.value)
             
             nextState = {
                 ...state,

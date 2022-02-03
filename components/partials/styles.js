@@ -127,6 +127,13 @@ export const Line = styled.View`
     margin-vertical: 10px;
 `;
 
+export const LineH = styled.View`
+    height: 100%;
+    width: 2px;
+    background-color: ${darkLight};
+    margin-horizontal: 10px;
+`;
+
 export const ExtraView = styled.View`
     justify-content: center;
     flex-direction: row;
