@@ -103,3 +103,22 @@ export const testCompatibility = (maleId,femaleId, rabbits, couples) => {
 
     return isReachable(maleId, femaleId,rabbits)
 }
+
+
+export const rabbitStats = (id, reproductions)=>{
+    let total_alive = 0
+    let total_dead = 0
+
+    let rabbit_rep = reproductions.filter((item)=>item.maleId===id||item.femaleId==id)
+    n = rabbit_rep.length
+    if(n==0){
+        return {alive:0, deads:0, totalRep:n}
+    }
+
+    for(let i=0; i<n; i++){
+        total_alive += rabbit_rep[i].alive
+        total_dead += rabbit_rep[i].deads
+    }
+
+    return {alive:Math.ceil(total_alive/n), deads:Math.ceil(total_dead/n), totalRep:n}
+}

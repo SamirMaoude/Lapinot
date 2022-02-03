@@ -15,6 +15,7 @@ import CompatibilityTest from '../components/CompatibilityTest'
 import Reproduction from '../components/Reproduction'
 import AddReproduction from '../components/AddReproduction'
 import Icon from 'react-native-vector-icons/Ionicons'
+import ReproductionDetail from '../components/ReproductionDetail'
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...'])
@@ -79,6 +80,11 @@ export default function MainNavigator(){
                     options={{ title: 'Ajouter reproduction' }}
                     name="AddReproduction"
                     component={AddReproduction}
+                />
+                <Stack.Screen
+                    options={{ title: 'Details' }}
+                    name="ReproductionDetail"
+                    component={ReproductionDetail}
                 />
                 <Stack.Screen
                     options={({navigation})=>({ 

@@ -36,6 +36,7 @@ import moment from "moment";
 
 //Rabbit
 import { addRabbit, setRabbit } from "../utils/rabbit-firebase";
+import { rabbitStats } from "../utils/Utils";
 
 //DateTimePicker
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -65,7 +66,9 @@ class RabbitDetail extends React.Component{
             gender: '',
             message: '',
             messageType: '',
-            
+            total_rep: 0,
+            avg_alive: 0,
+            avg_dead: 0,
             isLoading: true,
 
             femaleRabbitsList: [],
@@ -118,9 +121,14 @@ class RabbitDetail extends React.Component{
             ]
         }
 
+        const data = rabbitStats(this.rabbit.id,this.props.reproductionsList)
+
         this.setState({
             maleRabbitsList: this.maleRabbitsList,
             femaleRabbitsList: this.femaleRabbitsList,
+            avg_alive: data.alive,
+            avg_dead: data.deads,
+            total_rep: data.totalRep,
             isLoading: false
         })
     }
@@ -324,7 +332,7 @@ class RabbitDetail extends React.Component{
                                         placeholderTextColor={darkLight}
                                         onChangeText={handleChange('rabbitCode')}
                                         onBlur={handleBlur('rabbitCode')}
-                                        value='0 reproduction'
+                                        value={this.state.total_rep.toString()}
                                         isId={true}
                                         editable={false}
                                     />
@@ -335,18 +343,18 @@ class RabbitDetail extends React.Component{
                                         placeholderTextColor={darkLight}
                                         onChangeText={handleChange('rabbitCode')}
                                         onBlur={handleBlur('rabbitCode')}
-                                        value='0 lapins'
+                                        value={this.state.avg_alive.toString()}
                                         isId={true}
                                         editable={false}
                                     />
 
                                     <CustomTextInput
-                                        label="Moy mort=nés"
+                                        label="Moy mort-nés"
                                         icon="close"
                                         placeholderTextColor={darkLight}
                                         onChangeText={handleChange('rabbitCode')}
                                         onBlur={handleBlur('rabbitCode')}
-                                        value='0 lapins'
+                                        value={this.state.avg_dead.toString()}
                                         isId={true}
                                         editable={false}
                                     />
@@ -375,7 +383,8 @@ class RabbitDetail extends React.Component{
 const mapStateToProps = (state) => {
     return {
         rabbitsList: state.rabbitManager.rabbitsList,
-        coupleList: state.coupleManager.coupleList
+        coupleList: state.coupleManager.coupleList,
+        reproductionsList: state.reproductionManager.reproductionsList
     }
 }
 

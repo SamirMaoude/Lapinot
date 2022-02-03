@@ -8,10 +8,30 @@ export const addReproduction = async (reproduction, _addCoupleToStore, _addRepro
     await addDoc(reproductionRef,{...reproduction, userId:authentication.currentUser.uid}, { merge: true }).then((docRef)=>{
         
         _addCoupleToStore({male:reproduction.maleId,female:reproduction.femaleId})
-        _addReproductionToStore({...reproduction, id:docRef.id, userId:authentication.currentUser.id})
+        _addReproductionToStore({...reproduction, id:docRef.id, userId:authentication.currentUser.uid})
 
       }).catch((e)=>{
           console.log(e)
       })
+
+}
+
+export const deleteReproduction = async (id, _deleteReproductionInStore)=>{
+    const docRef = doc(db, 'reproductions', id);
+
+    await deleteDoc(docRef).then((docRef)=>{
+        _deleteReproductionInStore(id);
+    }); 
+}
+
+export const setReproduction = async(id,reproduction, setSubmitting, _setReproductionInStore) => {
+
+    await setDoc(doc(db,'reproductions',id), {reproduction, userId:authentication.currentUser.uid}).then((docRef)=>{
+        
+        _setReproductionInStore({...reproduction, id:id, userId:authentication.currentUser.uid})
+    }).catch((e)=>{
+        console.log(e)
+    })
+    setSubmitting(false);
 
 }

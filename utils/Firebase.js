@@ -6,12 +6,11 @@ export const registerUser = (farmName, email, password) => {
     .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        console.log(userCredential);
     })
     .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(error);
+
     });
 }
 
@@ -27,7 +26,6 @@ export const loginUser = (email, password) => {
     .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log({status: 'FAILED', message: errorMessage, user: null})
         return {status: 'FAILED', message: errorMessage, user: null}
     });
 }

@@ -35,7 +35,7 @@ import {connect} from 'react-redux'
 import moment from "moment";
 
 //Reproduction
-import { addReproduction } from "../utils/reproduction-firestore";
+import { addReproduction, setReproduction } from "../utils/reproduction-firestore";
 
 //DateTimePicker
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -72,16 +72,17 @@ const addRabbitValidationSchema = yup.object().shape({
   })
 
 
-class AddReproduction extends React.Component{
+class ReproductionDetail extends React.Component{
     constructor(props){
         super(props);
         this.rabbit = {}
         femaleRabbitsList = [];
         maleRabbitsList = [];
+        this.reproduction = this.props.route.params.reproduction
         this.state = {
             show: false,
             date: new Date(),
-            dop: undefined,
+            dop: new Date(this.reproduction.dateOfReproduction),
             gender: '',
             message: '',
             messageType: '',
@@ -130,6 +131,8 @@ class AddReproduction extends React.Component{
         this.femaleRabbitsList = this.props.rabbitsList.filter((rabbit)=>rabbit.gender==='F');
         this.maleRabbitsList = this.props.rabbitsList.filter((rabbit)=>rabbit.gender==='M')
 
+        console.log(this.reproduction)
+
         this.setState({
             femaleRabbitsList: [{id:'', rabbitCode:''}, ...this.femaleRabbitsList],
             maleRabbitsList: [{id:'', rabbitCode:''}, ...this.maleRabbitsList],
@@ -137,10 +140,10 @@ class AddReproduction extends React.Component{
         })
     }
 
-    _addReproductionToStore = (reproduction) => {
+    _setReproductionInStore = (reproduction) => {
       
         const action = {
-            type: 'ADD_REPRODUCTION',
+            type: 'SET_REPRODUCTION',
             value: reproduction
         }
 
@@ -183,11 +186,11 @@ class AddReproduction extends React.Component{
                         )}
                         <Formik
                             initialValues={{
-                                dateOfReproduction: '',
-                                maleId: '',
-                                femaleId:'',
-                                alive: '0',
-                                deads: '0',
+                                dateOfReproduction: this.reproduction.dateOfReproduction,
+                                maleId: this.reproduction.maleId,
+                                femaleId: this.reproduction.femaleId,
+                                alive: this.reproduction.alive.toString(),
+                                deads: this.reproduction.deads.toString(),
                             }}
                             onSubmit={(values, {setSubmitting})=>{
                                 let reproduction = {
@@ -198,8 +201,8 @@ class AddReproduction extends React.Component{
 
                                 }
 
-
-                                addReproduction(reproduction,this._addCoupleToStore,this._addReproductionToStore)
+                                setReproduction(this.reproduction.id, reproduction, setSubmitting, this._setReproductionInStore)
+                                //addReproduction(reproduction,this._addCoupleToStore,this._addReproductionToStore)
                                 
                             }}
                             validationSchema={addRabbitValidationSchema}
@@ -236,7 +239,7 @@ class AddReproduction extends React.Component{
                                         selectedValue={values.maleId}
                                         label="Male"
                                         isRabbit={true}
-                                        data={this.state.maleRabbitsList}
+                                        data={[{id:this.reproduction.maleId, rabbitCode:this.reproduction.maleCode}]}
                                         
                                     />
                                     <CustomPicker
@@ -245,7 +248,7 @@ class AddReproduction extends React.Component{
                                         selectedValue={values.femaleId}
                                         label="Femelle"
                                         isRabbit={true}
-                                        data={this.state.femaleRabbitsList}
+                                        data={[{id:this.reproduction.femaleId, rabbitCode:this.reproduction.femaleCode}]}
                                         
                                     />
                                     <Line />
@@ -305,4 +308,4 @@ const mapStateToProps = (state) => {
 
 
 
-export default connect(mapStateToProps)(AddReproduction)
+export default connect(mapStateToProps)(ReproductionDetail)
