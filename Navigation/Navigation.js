@@ -18,6 +18,9 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import ReproductionDetail from '../components/ReproductionDetail'
 import Statistiques from '../components/Statistiques'
 import RabbitClassement from '../components/RabbitClassement'
+import Vaccination from '../components/Vaccination'
+import AddVaccination from '../components/AddVaccination'
+import VaccinationDetail from '../components/VaccinationDetail'
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...'])
@@ -84,9 +87,19 @@ export default function MainNavigator(){
                     component={AddReproduction}
                 />
                 <Stack.Screen
+                    options={{ title: 'Ajouter vaccination' }}
+                    name="AddVaccination"
+                    component={AddVaccination}
+                />
+                <Stack.Screen
                     options={{ title: 'Details' }}
                     name="ReproductionDetail"
                     component={ReproductionDetail}
+                />
+                <Stack.Screen
+                    options={{ title: 'Details' }}
+                    name="VaccinationDetail"
+                    component={VaccinationDetail}
                 />
                 <Stack.Screen
                     options={({navigation})=>({ 
@@ -109,6 +122,17 @@ export default function MainNavigator(){
                     options={{ title: 'Classement' }}
                     name="RabbitClassement"
                     component={RabbitClassement}
+                />
+                <Stack.Screen
+                    options={({navigation})=>({
+                        title: 'Vaccinations',
+                        headerRight: ()=>(
+                            <TouchableOpacity onPress={()=>navigation.navigate('AddVaccination')}>
+                                <Icon name="add" size={40} />
+                            </TouchableOpacity>)
+                    })}
+                    name="Vaccination"
+                    component={Vaccination}
                 />
             </Stack.Navigator>
         </NavigationContainer>

@@ -1,5 +1,6 @@
 import React from "react";
 import {View, StyleSheet, Text, TouchableOpacity} from "react-native"
+import {Colors} from './styles'
 
 
 class Box extends React.Component{
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     },
     inner: {
         flex: 1,
-        backgroundColor: '#D3B8A5',
+        backgroundColor: Colors.tertiary,//'#D3B8A5',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 20,
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign:'center',
         flexWrap: 'wrap',
+        color: 'white'
     },
 })
 

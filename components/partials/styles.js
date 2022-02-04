@@ -14,7 +14,8 @@ export const Colors = {
     green: '#10B981',
     red: '#EF4444',
     pink: '#FF69B4',
-    blue: '#009DFF'    
+    blue: '#009DFF' ,
+    redLight: '#ff6766'  
 };
 
 const {primary, primaryLight, secondary, tertiary, darkLight, brand, green, red} = Colors;
@@ -63,7 +64,7 @@ export const StyledTextInput = styled.TextInput`
     padding-right: 55px;
     border-radius: 5px;
     font-size: 16px;
-    height: 60px;
+    height: 50px;
     margin-vertical: 3px;
     margin-bottom: 10px;
     color: ${tertiary};
@@ -77,7 +78,7 @@ export const StyledInputLabel = styled.Text`
 
 export const LeftIcon = styled.View`
     left: 15px;
-    top: 38px;
+    top: 30px;
     position: absolute;
     z-index: 1;
 `;
@@ -95,7 +96,7 @@ export const StyledButton = styled.TouchableOpacity`
     justify-content: center;
     border-radius: 5px;
     margin-vertical: 5px;
-    height: 60px;
+    height: 50px;
     align-items: center;
 
     ${(props) => props.google == true && `

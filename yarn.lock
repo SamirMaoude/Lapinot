@@ -1895,6 +1895,20 @@
   "resolved" "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.4.tgz"
   "version" "15.7.4"
 
+"@types/react-native-global-props@^1.1.1":
+  "integrity" "sha512-u7jCZ9OUPFfNBcpDJHvHenm9r+K6a/wiKdpoLJTaUocLueN5hS5eGcLlFdUN/SDfBLVRNAkPRV1ZDFK1GyRBOw=="
+  "resolved" "https://registry.npmjs.org/@types/react-native-global-props/-/react-native-global-props-1.1.1.tgz"
+  "version" "1.1.1"
+  dependencies:
+    "@types/react-native" "^0.65"
+
+"@types/react-native@^0.65":
+  "integrity" "sha512-LIgRFtJOYKRwu792iMvXQxWRCYVloglO+r10V+0O2wsg2LTWimpZLemcxMPMOu3ZS7/tcG6bzPnUKrIVEmsMZQ=="
+  "resolved" "https://registry.npmjs.org/@types/react-native/-/react-native-0.65.20.tgz"
+  "version" "0.65.20"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-redux@^7.1.20":
   "integrity" "sha512-GxIA1kM7ClU73I6wg9IRTVwSO9GS+SAKZKe0Enj+82HMU6aoESFU2HNAdNi3+J53IaOHPiUfT3kSG4L828joDQ=="
   "resolved" "https://registry.npmjs.org/@types/react-redux/-/react-redux-7.1.22.tgz"

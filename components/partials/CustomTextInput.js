@@ -9,16 +9,19 @@ import {
 } from "./styles";
 import Icon from 'react-native-vector-icons/Ionicons'
 import {default as MaterialCommunityIcons} from 'react-native-vector-icons/MaterialCommunityIcons';
+import {default as Fontisto} from 'react-native-vector-icons/Fontisto';
+
 
 
 
 const {brand, darkLight} = Colors;
-const CustomTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, isDate, showDatePicker, isId, ...props}) =>{
+const CustomTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, isDate, showDatePicker, isId, vac, ...props}) =>{
     return(
         <View>
             <LeftIcon>
-                {!isId && <Icon name={icon} size={30} color={brand}/>}
+                {!isId && !vac && <Icon name={icon} size={30} color={brand}/>}
                 {isId && <MaterialCommunityIcons name={icon} size={30} color={brand}/>}
+                {vac && <Fontisto name={icon} size={30} color={brand}/>}
             </LeftIcon>
             <StyledInputLabel>{label}</StyledInputLabel>
             {!isDate && <StyledTextInput {...props}/>}

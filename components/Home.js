@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import Header from './partials/Header'
 import Boxes from './partials/Boxes'
 import {authentication} from '../firebase/firebase-config'
+import {Colors} from './partials/styles'
 
 class Home extends React.Component {
     constructor(props){
@@ -18,13 +19,12 @@ class Home extends React.Component {
         return(
 
             <SafeAreaView style={styles.homeStyle}>
-                <Header navigation={this.props.navigation}/>
                 <Boxes navigation={this.props.navigation}/>
                 <TouchableOpacity
                     style={styles.floatingButton}
                     onPress={()=>this.props.navigation.navigate('AddRabbit')}
                 >
-                    <Icon name="ios-add-circle-sharp" size={50} color="red" />
+                    <Icon name="ios-add-circle-sharp" size={50} color={Colors.secondary} />
                 </TouchableOpacity>
             </SafeAreaView>
         )

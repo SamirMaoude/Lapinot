@@ -36,12 +36,11 @@ class Boxes extends React.Component{
                     navigation={this.props.navigation}
                     navigateTo='RabbitClassement'
                 ></Box>
-                <Box title='Box 3'></Box>
-                <Box title='Box 4'></Box>
-                <Box title='Box 1'></Box>
-                <Box title='Box 2'></Box>
-                <Box title='Box 3'></Box>
-                <Box title='Box 4'></Box>
+                <Box
+                    title='Vaccinations'
+                    navigation={this.props.navigation}
+                    navigateTo='Vaccination'
+                ></Box>
             </ScrollView>
         )
     }
