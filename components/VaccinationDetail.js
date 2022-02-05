@@ -191,7 +191,7 @@ class VaccinationDetail extends React.Component{
                                             placeholderTextColor={darkLight}
                                             onChangeText={handleChange('dateOfVac')}
                                             onBlur={handleBlur('dateOfVac')}
-                                            value={this.state.dob ? moment(new Date(this.state.dob)).format('DD/MM/YYYY'): ''}
+                                            value={this.state.dob ? moment(new Date(this.state.dob)).format('DD-MM-YYYY'): ''}
                                             isDate={true}
                                             editable={false}
                                             showDatePicker={this.showDatePicker}

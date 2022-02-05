@@ -32,88 +32,161 @@ class Statistiques extends React.Component{
 
     render(){
         return(
-            <ScrollView style={{flex:1, padding:10}}>
-                
-                <FadeIn>
-                    <CardView>
-                        <Text style={styles.label}>Nombre de Lapins</Text>
-                        <Text style={{
-                            fontSize: 40,
-                            color: 'orange',
-                            fontWeight: 'bold'
-                        }}>{this.rabbitsSize}</Text>
-                    </CardView>
-                </FadeIn>
+            <ScrollView contentContainerStyle={styles.boxContainer}>
 
-                <FadeIn>
-                    <CardView>
-                        <Text style={styles.label}>Nombre de Lapins Femelles</Text>
-                        <Text style={{
-                            fontSize: 40,
-                            color: pink,
-                            fontWeight: 'bold'
-                        }}>{this.femaleRabbitSize}</Text>
-                    </CardView>
-                </FadeIn>
-
-                <FadeIn>
-                    <CardView>
-                        <Text style={styles.label}>Nombre de Lapins Mâles</Text>
-                        <Text style={{
-                            fontSize: 40,
-                            color: blue,
-                            fontWeight: 'bold'
-                        }}>{this.maleRabbitSize}</Text>
-                    </CardView>
-                </FadeIn>
-
-                <Line />
-
-                <FadeIn>
-                    <CardView>
-                        <Text style={{
-                            fontSize: 30,
-                            color: 'black',
-                            fontWeight: 'bold',
-                            textAlign: 'center'}}>
-                                {this.props.reproductionsList.length} reproductions
-                        </Text>
-
-                        <View style={{flexDirection: 'row', marginVertical: 14, justifyContent:'space-around'}}>
-                            <View>
+                    <View style={{width:'50%', padding:7}}>
+                        <CardView
+                            elevation={15}
+                            color='#0E0E0F'
+                        >
+                            <View style={{
+                                flexDirection: 'column',
+                                height: 100,
+                                justifyContent: 'center',
+                                alignContent: 'center',
+                                alignItems: 'center',
+                            }}>
                                 <Text style={{
-                                    fontSize: 16,
-                                    color: 'black',
-                                    fontWeight: 'bold',
-                                    textAlign: 'center'}}>Moyenne de nés vivants</Text>
+                                    fontSize: 35,
+                                    color: 'orange',
+                                    fontWeight: 'bold'
+                                }}>{this.rabbitsSize}</Text>
                                 <Text style={{
-                                    fontSize: 40,
-                                    color: green,
-                                    fontWeight: 'bold',
-                                    textAlign: 'center'
+                                    fontSize: 18,
+                                    color: 'white',
+                                    fontWeight: 'bold'
+                                }}>Lapins</Text>
+                            </View>
+                        </CardView>
+                    </View>
+                    <View style={{width:'50%', padding:7}}>
+                        <CardView
+                            elevation={15}
+                            color='#0E0E0F'
+                        >
+                            <View style={{
+                                flexDirection: 'column',
+                                height: 100,
+                                justifyContent: 'center',
+                                alignContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <Text style={{
+                                    fontSize: 35,
+                                    color: Colors.darkLight,
+                                    fontWeight: 'bold'
+                                }}>{this.props.reproductionsList.length}</Text>
+                                <Text style={{
+                                    fontSize: 18,
+                                    color: 'white',
+                                    fontWeight: 'bold'
+                                }}>Reproductions</Text>
+                            </View>
+                        </CardView>
+                    </View>
+
+                    <View style={{width:'50%', padding:7}}>
+                        <CardView
+                            elevation={15}
+                            color='#0E0E0F'
+                        >
+                            <View style={{
+                                flexDirection: 'column',
+                                height: 100,
+                                justifyContent: 'center',
+                                alignContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <Text style={{
+                                    fontSize: 35,
+                                    color: Colors.blue,
+                                    fontWeight: 'bold'
+                                }}>{this.maleRabbitSize}</Text>
+                                <Text style={{
+                                    fontSize: 18,
+                                    color: 'white',
+                                    fontWeight: 'bold'
+                                }}>Mâles</Text>
+                            </View>
+                        </CardView>
+                    </View>
+
+                    <View style={{width:'50%', padding:7}}>
+                        <CardView
+                            elevation={15}
+                            color='#0E0E0F'
+                        >
+                            <View style={{
+                                flexDirection: 'column',
+                                height: 100,
+                                justifyContent: 'center',
+                                alignContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <Text style={{
+                                    fontSize: 35,
+                                    color: Colors.pink,
+                                    fontWeight: 'bold'
+                                }}>{this.femaleRabbitSize}</Text>
+                                <Text style={{
+                                    fontSize: 18,
+                                    color: 'white',
+                                    fontWeight: 'bold'
+                                }}>Femelles</Text>
+                            </View>
+                        </CardView>
+                    </View>
+                    <View style={{width:'50%', padding:7}}>
+                        <CardView
+                            elevation={15}
+                            color='#0E0E0F'
+                        >
+                            <View style={{
+                                flexDirection: 'column',
+                                height: 100,
+                                justifyContent: 'center',
+                                alignContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <Text style={{
+                                    fontSize: 35,
+                                    color: Colors.green,
+                                    fontWeight: 'bold'
                                 }}>{this.state.avg_alive}</Text>
+                                <Text style={{
+                                    fontSize: 18,
+                                    color: 'white',
+                                    fontWeight: 'bold'
+                                }}>Moy de nés vivants</Text>
                             </View>
-                            <LineH />
-                            <View>
-                            <Text style={{
-                                    fontSize: 16,
-                                    color: 'black',
-                                    fontWeight: 'bold',
-                                    textAlign: 'center'}}>Moyenne de mort-nés</Text>
-                            <Text style={{
-                                    fontSize: 40,
-                                    color: red,
-                                    fontWeight: 'bold',
-                                    textAlign: 'center'
+                        </CardView>
+                    </View>
+
+                    <View style={{width:'50%', padding:7}}>
+                        <CardView
+                            elevation={15}
+                            color='#0E0E0F'
+                        >
+                            <View style={{
+                                flexDirection: 'column',
+                                height: 100,
+                                justifyContent: 'center',
+                                alignContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <Text style={{
+                                    fontSize: 35,
+                                    color: Colors.red,
+                                    fontWeight: 'bold'
                                 }}>{this.state.avg_deads}</Text>
+                                <Text style={{
+                                    fontSize: 18,
+                                    color: 'white',
+                                    fontWeight: 'bold'
+                                }}>Moy de morts-nés</Text>
                             </View>
-                        </View>
-
-                    </CardView>
-                </FadeIn>
-                
-
-                
+                        </CardView>
+                    </View>
 
             </ScrollView>
         )
@@ -136,6 +209,17 @@ const styles = StyleSheet.create({
         fontSize: 40,
         color: 'orange',
         fontWeight: 'bold'
+    },
+    boxContainer: {
+        width: '100%',
+        flex: 1,
+        //backgroundColor: 'red',
+        padding: 5,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        paddingVertical: 80
+       // backgroundColor: '#1D1D20'
+
     }
 })
 

@@ -23,6 +23,7 @@ import AddVaccination from '../components/AddVaccination'
 import VaccinationDetail from '../components/VaccinationDetail'
 
 import { LogBox } from 'react-native';
+import { Colors } from '../components/partials/styles'
 LogBox.ignoreLogs(['Warning: ...'])
 
 const Stack = createStackNavigator()
@@ -57,7 +58,14 @@ export default function MainNavigator(){
                     component={AddRabbit}
                 />
                 <Stack.Screen
-                    options={{ title: 'Lapins' }}
+                    options={({navigation})=>({ 
+                        title: 'Lapins' ,
+                        headerRight: ()=>(
+                            <TouchableOpacity onPress={()=>navigation.replace('AddRabbit')}>
+                                <Icon name="add" size={40} color={Colors.tertiary} />
+                            </TouchableOpacity>)
+                        
+                    })}
                     name="RabbitList"
                     component={RabbitList}
                 />
@@ -72,7 +80,14 @@ export default function MainNavigator(){
                     component={Signup}
                 />
                 <Stack.Screen
-                    options={{ title: 'Détails' }}
+                    options={({navigation})=>({ 
+                        title: 'Details' ,
+                        headerLeft: ()=>(
+                            <TouchableOpacity onPress={()=>navigation.replace('RabbitList')}>
+                                <Icon name="arrow-back" size={30} />
+                            </TouchableOpacity>)
+                        
+                    })}
                     name="RabbitDetail"
                     component={RabbitDetail}
                 />
@@ -92,12 +107,26 @@ export default function MainNavigator(){
                     component={AddVaccination}
                 />
                 <Stack.Screen
-                    options={{ title: 'Details' }}
+                    options={({navigation})=>({ 
+                        title: 'Details' ,
+                        headerLeft: ()=>(
+                            <TouchableOpacity onPress={()=>navigation.replace('Reproduction')}>
+                                <Icon name="arrow-back" size={30} />
+                            </TouchableOpacity>)
+                        
+                    })}
                     name="ReproductionDetail"
                     component={ReproductionDetail}
                 />
                 <Stack.Screen
-                    options={{ title: 'Details' }}
+                     options={({navigation})=>({ 
+                        title: 'Details' ,
+                        headerLeft: ()=>(
+                            <TouchableOpacity onPress={()=>navigation.replace('Vaccination')}>
+                                <Icon name="arrow-back" size={30} />
+                            </TouchableOpacity>)
+                        
+                    })}
                     name="VaccinationDetail"
                     component={VaccinationDetail}
                 />
@@ -105,8 +134,8 @@ export default function MainNavigator(){
                     options={({navigation})=>({ 
                         title: 'Reproduction' ,
                         headerRight: ()=>(
-                            <TouchableOpacity onPress={()=>navigation.navigate('AddReproduction')}>
-                                <Icon name="add" size={40} />
+                            <TouchableOpacity onPress={()=>navigation.replace('AddReproduction')}>
+                                <Icon name="add" size={40} color={Colors.tertiary} />
                             </TouchableOpacity>)
                         
                     })}
@@ -127,8 +156,8 @@ export default function MainNavigator(){
                     options={({navigation})=>({
                         title: 'Vaccinations',
                         headerRight: ()=>(
-                            <TouchableOpacity onPress={()=>navigation.navigate('AddVaccination')}>
-                                <Icon name="add" size={40} />
+                            <TouchableOpacity onPress={()=>navigation.replace('AddVaccination')}>
+                                <Icon name="add" size={40} color={Colors.tertiary} />
                             </TouchableOpacity>)
                     })}
                     name="Vaccination"

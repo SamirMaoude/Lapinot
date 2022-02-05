@@ -24,7 +24,7 @@ class Home extends React.Component {
                     style={styles.floatingButton}
                     onPress={()=>this.props.navigation.navigate('AddRabbit')}
                 >
-                    <Icon name="ios-add-circle-sharp" size={50} color={Colors.secondary} />
+                    <Icon name="ios-add-circle-sharp" size={50} color={Colors.blue} />
                 </TouchableOpacity>
             </SafeAreaView>
         )

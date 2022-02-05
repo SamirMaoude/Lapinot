@@ -186,9 +186,9 @@ class Login extends React.Component{
                         </Formik>
                     </InnerContainer>
                     <ExtraView>
-                        <ExtraText>Don't have an account already?</ExtraText>
+                        <ExtraText>Vous n'avez pas de compte?</ExtraText>
                         <TextLink onPress={()=>this.props.navigation.replace('Signup')}>
-                            <TextLinkContent>Signup</TextLinkContent>
+                            <TextLinkContent style={{color:Colors.green}}>S'inscrire</TextLinkContent>
                         </TextLink>
                     </ExtraView>
                 </StyledContainer>

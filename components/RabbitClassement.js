@@ -63,7 +63,7 @@ class RabbitClassement extends React.Component{
     }
 
     _displayDetailForRabbit = (rabbit) => {
-        this.props.navigation.navigate('RabbitDetail', {
+        this.props.navigation.replace('RabbitDetail', {
             rabbit: {...rabbit, dateOfbirth:rabbit.dateOfbirth.toDateString()},
         })
     }

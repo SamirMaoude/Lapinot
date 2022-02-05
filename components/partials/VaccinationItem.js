@@ -40,7 +40,6 @@ class VaccinationItem extends React.Component {
         const {vaccination,displayDetailForVaccination, deleteVaccinationInStore} = this.props
        
 
-
        
 
 
@@ -79,6 +78,14 @@ class VaccinationItem extends React.Component {
                                     fontWeight: 'bold',
                                 
                             }}>{vaccination.dosage} mg</Text>
+                            <Text style={{
+                                    
+                                    textAlign: 'center',
+                                    color: Colors.blue,
+                                    fontSize: 18,
+                                    fontWeight: 'bold',
+                                
+                            }}>{moment(new Date(vaccination.dateOfVac)).format('DD-MM-YYYY')}</Text>
                         </View>
                         
                         

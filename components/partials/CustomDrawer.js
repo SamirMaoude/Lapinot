@@ -27,10 +27,15 @@ const CustomDrawer = (props) => {
                 />
             </DrawerContentScrollView>
 
-            <Line />
+            <Line style={{marginVertical:8}}/>
 
             <TextLink onPress = {() => {signOut(authentication)}}>
-                <TextLinkContent>Déconnexion</TextLinkContent>
+                <TextLinkContent style={{
+                    color:'black',
+                    fontWeight: 'bold',
+                    fontSize: 18,
+                    paddingVertical:16
+            }}>Déconnexion</TextLinkContent>
             </TextLink>
 
         </View>

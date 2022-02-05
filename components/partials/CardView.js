@@ -26,6 +26,9 @@ class CarView extends React.Component{
                 paddingVertical: 5,
                 paddingLeft: 5,
                 marginVertical: 5,
+                borderWidth: this.props.borderWidth || 0,
+                borderColor: this.props.borderColor || 'white',
+                
             }}>
                 {this.props.children}
           </View>

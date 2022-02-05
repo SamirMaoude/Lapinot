@@ -28,7 +28,7 @@ class Vaccination extends React.Component{
     }
 
     _displayDetailForVaccination = (vaccination) => {
-        this.props.navigation.navigate('VaccinationDetail', {
+        this.props.navigation.replace('VaccinationDetail', {
             vaccination: {...vaccination, dateOfVac:vaccination.dateOfVac.toDateString()},
         })
     }

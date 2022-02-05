@@ -3,10 +3,10 @@ import { StyleSheet, View, Text, Image, TouchableOpacity, Alert } from 'react-na
 import { color } from 'react-native-reanimated';
 import moment from 'moment'
 import { deleteReproduction } from '../../utils/reproduction-firestore';
-
+import CardView from './CardView';
 
 import FadeIn from '../../Animations/FadeIn'
-import {Colors, Line} from './styles'
+import {Colors, LineH} from './styles'
 import Icon from 'react-native-vector-icons/Ionicons';
 import {default as MaterialCommunityIcons} from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -55,61 +55,57 @@ class ReproductionItem extends React.Component {
         return (
             <FadeIn>
                 <TouchableOpacity
-                    style={{height:250, flexDirection: 'row', padding:5}}
+                    style={{height:225, flexDirection: 'row', padding:5}}
                     onPress={()=>displayDetailForReproduction(reproduction)}
                 >
-                    
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        borderLeftWidth: 7,
-                        width: '100%',
-                        borderLeftColor: '#9c27b0',
-                        shadowColor: 'black',
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowRadius: 6,
-                        shadowOpacity: 0.26,
-                        elevation: 8,
-                        backgroundColor: '#D3B8A5',
-                        paddingVertical: 5,
-                        paddingLeft: 5
-                    }}>
-                        <View style={{flexDirection:'row', alignItems:'center', paddingVertical: 5, justifyContent: 'space-between'}}>
-                            <View style={styles.container,{justifyContent:'space-around', flexDirection: 'row', flex:2}}>
-                                <View>
-                                    <MaterialCommunityIcons name='rabbit' size={40} color={blue}/>
-                                    <Text style={styles.value}>{reproduction.maleCode}</Text>
-                                </View>
-                                <View>
-                                    <MaterialCommunityIcons name='rabbit' size={40} color={pink}/>
-                                    <Text style={styles.value}>{reproduction.femaleCode}</Text>
-                                </View>
+                    <CardView
+                        color='#FFFFF7'
+                        elevation={2}
+                        borderWidth={1}
+                        borderColor={Colors.secondary}
+                    >
+                        <View style={{flex:1, flexDirection:'column', padding:8}}>
+                            
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Nés vivants: </Text>
+                                <Text style={{
+                                    fontSize: 18,
+                                    color: Colors.green,
+                                    fontWeight: '600',
+                                    fontFamily: 'Robotto'}}>{reproduction.alive}</Text>
                             </View>
-                            
-                            
-                            <TouchableOpacity
-                                style={{alignSelf: 'flex-end'}}
-                                onPress={()=>{this.promptDelete(reproduction, deleteReproductionInStore)}}
-                            >
-                                <Icon name="close" size={40} color='red'/>
-                            </TouchableOpacity>
-                        </View>
-                        <Line style={{backgroundColor:'black'}}/>
-                        <View>
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Mort-nés: </Text>
+                                <Text style={{
+                                    fontSize: 18,
+                                    color: Colors.red,
+                                    fontWeight: '600',
+                                    fontFamily: 'Robotto'}}>{reproduction.deads}</Text>
+                            </View>
                             <View style={styles.container}>
                                 <Text style={styles.label}>Date d'accouplement: </Text>
-                                <Text style={styles.value}>{moment(new Date(reproduction.dateOfReproduction)).format('DD/MM/YYYY')}</Text>
+                                <Text style={styles.value}>{moment(new Date(reproduction.dateOfReproduction)).format('DD-MM-YYYY')}</Text>
                             </View>
                             <View style={styles.container}>
-                                <Text style={styles.label}>Nés vivants: </Text>
-                                <Text style={styles.value}>{reproduction.alive}</Text>
+                                <View style={{backgroundColor: 'black', height: 2, flex: 1, alignSelf: 'center'}} />
+                                <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 24, color: Colors.tertiary }}>Reproducteurs</Text>
+                                <View style={{backgroundColor: 'black', height: 2, flex: 1, alignSelf: 'center'}} />
                             </View>
-                            <View style={styles.container}>
-                                <Text style={styles.label}>Nés vivants: </Text>
-                                <Text style={styles.value}>{reproduction.deads}</Text>
+                            <View style={{flexDirection:'row', justifyContent: 'space-evenly', marginVertical:4}}>
+                                <Text style={{
+                                    fontSize: 18,
+                                    color: blue,
+                                    fontWeight: '600',
+                                    fontFamily: 'Robotto'}}>{reproduction.maleCode}</Text>
+                                <LineH style={{backgroundColor: Colors.tertiary}}/>
+                                <Text style={{
+                                    fontSize: 18,
+                                    color: pink,
+                                    fontWeight: '600',
+                                    fontFamily: 'Robotto'}}>{reproduction.femaleCode}</Text>
                             </View>
                         </View>
-                  </View>
+                    </CardView>
 
                     
               </TouchableOpacity>
@@ -119,21 +115,19 @@ class ReproductionItem extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flexDirection:'row',
-        alignItems:'center',
-        paddingVertical: 5,
-    },
+    container:{flexDirection:'row', justifyContent: 'space-between', marginVertical:4},
 
     label: {
-        fontSize: 16,
-        color: 'black',
-        fontWeight: 'bold'
+        fontSize: 18,
+        color: Colors.lightBlue,
+        fontFamily: 'Robotto'
     },
     value: {
-        fontSize: 16,
+        fontSize: 18,
         color: 'black',
-        fontWeight: 'normal'
+        fontWeight: '600',
+        fontFamily: 'Robotto'
+
     }
 })
 

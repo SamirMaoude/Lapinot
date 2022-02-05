@@ -178,7 +178,7 @@ class RabbitDetail extends React.Component{
         }
 
         this.props.dispatch(action)
-        this.props.navigation.goBack()
+        this.props.navigation.replace('RabbitList')
 
     }
 
@@ -288,7 +288,7 @@ class RabbitDetail extends React.Component{
                                         placeholderTextColor={darkLight}
                                         onChangeText={handleChange('dateOfBirth')}
                                         onBlur={handleBlur('dateOfBirth')}
-                                        value={this.state.dob ? moment(new Date(this.state.dob)).format('DD/MM/YYYY'): ''}
+                                        value={this.state.dob ? moment(new Date(this.state.dob)).format('DD-MM-YYYY'): ''}
                                         isDate={true}
                                         editable={false}
                                         showDatePicker={this.showDatePicker}

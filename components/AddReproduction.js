@@ -146,7 +146,7 @@ class AddReproduction extends React.Component{
 
         this.props.dispatch(action)
 
-        this.props.navigation.goBack();
+        this.props.navigation.replace('Reproduction');
 
     }
 
@@ -223,7 +223,7 @@ class AddReproduction extends React.Component{
                                         placeholderTextColor={darkLight}
                                         onChangeText={handleChange('dateOfReproduction')}
                                         onBlur={handleBlur('dateOfReproduction')}
-                                        value={this.state.dop ? moment(new Date(this.state.dop)).format('DD/MM/YYYY'): ''}
+                                        value={this.state.dop ? moment(new Date(this.state.dop)).format('DD-MM-YYYY'): ''}
                                         isDate={true}
                                         editable={false}
                                         showDatePicker={this.showDatePicker}

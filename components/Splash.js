@@ -47,7 +47,7 @@ class Splash extends React.Component {
                     ref={animation => {
                         this.animation = animation;
                     }}
-                    source={require('../assets/rabbit-white-screen.json')}
+                    source={require('../assets/anim-logo.json')}
                     autoPlay
                     loop={false}
                     onAnimationFinish={()=>{

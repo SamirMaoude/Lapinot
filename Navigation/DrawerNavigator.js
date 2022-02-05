@@ -9,6 +9,13 @@ import { Button, TouchableOpacity } from 'react-native'
 import { Colors } from "../components/partials/styles";
 import LottieView from 'lottie-react-native'
 import {randomAnimation} from '../utils/Utils'
+import RabbitList from '../components/RabbitList'
+import Reproduction from '../components/Reproduction'
+import CompatibilityTest from '../components/CompatibilityTest'
+import Vaccination from '../components/Vaccination'
+import RabbitClassement from '../components/RabbitClassement'
+import Statistiques from '../components/Statistiques'
+import { Line } from "../components/partials/styles";
 
 const Drawer = createDrawerNavigator();
 
@@ -18,7 +25,7 @@ const HomeNavigator = () => {
         <Drawer.Navigator
             drawerContent={props => <CustomDrawer {...props}/>}
             screenOptions={{
-                
+                drawerInactiveTintColor: Colors.tertiary
             }}
         >
             <Drawer.Screen
@@ -31,7 +38,7 @@ const HomeNavigator = () => {
                     headerTintColor: Colors.tertiary,
                     headerLeft: ()=>(
                         <TouchableOpacity onPress={()=>navigation.openDrawer()}>
-                            <Icon name="menu" size={40} color='black'/>
+                            <Icon name="menu" size={30} color='black'/>
                         </TouchableOpacity>),
                     headerRight: ()=>(
                         <LottieView
@@ -45,8 +52,42 @@ const HomeNavigator = () => {
                         />)
                 })}
             />
-            <Drawer.Screen name="Login" component={Login} />
-            <Drawer.Screen name="Signup" component={Signup} />
+            <Drawer.Screen name="Test de compatibilité" component={CompatibilityTest} />
+            <Drawer.Screen options={({navigation})=>({
+                        title: 'Lapins',
+                        headerLeft: ()=>(
+                        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+                            <Icon name="menu" size={30} color='black'/>
+                        </TouchableOpacity>),
+                        headerRight: ()=>(
+                            <TouchableOpacity onPress={()=>navigation.replace('AddRabbit')}>
+                                <Icon name="add" size={30} color={Colors.tertiary} />
+                            </TouchableOpacity>)
+                    })} name="Lapins" component={RabbitList} />
+            <Drawer.Screen options={({navigation})=>({
+                        title: 'Reproductions',
+                        headerLeft: ()=>(
+                        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+                            <Icon name="menu" size={30} color='black'/>
+                        </TouchableOpacity>),
+                        headerRight: ()=>(
+                            <TouchableOpacity onPress={()=>navigation.replace('AddReproduction')}>
+                                <Icon name="add" size={30} color={Colors.tertiary} />
+                            </TouchableOpacity>)
+                    })} name="Reproductions" component={Reproduction} />
+            <Drawer.Screen options={({navigation})=>({
+                        title: 'Vaccinations',
+                        headerLeft: ()=>(
+                        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+                            <Icon name="menu" size={30} color='black'/>
+                        </TouchableOpacity>),
+                        headerRight: ()=>(
+                            <TouchableOpacity onPress={()=>navigation.replace('AddVaccination')}>
+                                <Icon name="add" size={30} color={Colors.tertiary} />
+                            </TouchableOpacity>)
+                    })} name="Vaccinations" component={Vaccination} />
+            <Drawer.Screen name="Classement" component={RabbitClassement} />
+            <Drawer.Screen name="Statistiques" component={Statistiques} />
         </Drawer.Navigator>
     )
     

@@ -7,8 +7,9 @@ import { rabbitStats } from "../../utils/Utils";
 
 
 import FadeIn from '../../Animations/FadeIn'
-import {Colors} from './styles'
+import {Colors, Line, LineH} from './styles'
 import Icon from 'react-native-vector-icons/Ionicons';
+import CardView from './CardView'
 
 const {pink, blue, brand} = Colors;
 
@@ -60,65 +61,67 @@ class RabbitItem extends React.Component {
         return (
             <FadeIn>
                 <TouchableOpacity
-                    style={{height:250, flexDirection: 'row', padding:5}}
+                    style={{height:300, flexDirection: 'row', padding:5, paddingHorizontal:10}}
                     onPress={()=>displayDetailForRabbit(rabbit)}
                 >
-                    
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        borderLeftWidth: 7,
-                        width: '100%',
-                        borderLeftColor: rabbit.gender==='F'? pink :blue,
-                        shadowColor: 'black',
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowRadius: 6,
-                        shadowOpacity: 0.26,
-                        elevation: 8,
-                        backgroundColor: '#D3B8A5',
-                        paddingVertical: 5,
-                        paddingLeft: 5
-                    }}>
-                        <View style={{flexDirection:'row', alignItems:'center', paddingVertical: 5, justifyContent: 'space-between'}}>
+                    <CardView
+                        color='#FFFFF7'
+                        elevation={2}
+                        borderWidth={1}
+                        borderColor={Colors.secondary}
+                    >
+                        <View style={{flex:1, flexDirection:'column', padding:8}}>
                             <View style={styles.container}>
-                                <Text style={styles.label}>Code d'identification: </Text>
+                                <Text style={styles.label}>Code:</Text>
                                 <Text style={styles.value}>{rabbit.rabbitCode}</Text>
                             </View>
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Sexe: </Text>
+                                <Text style={styles.value}>{rabbit.gender==='M'? 'Mâle': 'Femelle'}</Text>
+                            </View>
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Naissance: </Text>
+                                <Text style={styles.value}>{moment(new Date(rabbit.dateOfbirth)).format('DD-MM-YYYY')}</Text>
+                            </View>
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Moy survie: </Text>
+                                <Text style={{
+                                    fontSize: 18,
+                                    color: Colors.green,
+                                    fontWeight: '600',
+                                    fontFamily: 'Robotto'}}>{rabbit.avg_alive}</Text>
+                            </View>
+                            <View style={styles.container}>
+                                <Text style={styles.label}>Moy mort-nés: </Text>
+                                <Text style={{
+                                    fontSize: 18,
+                                    color: Colors.red,
+                                    fontWeight: '600',
+                                    fontFamily: 'Robotto'}}>{rabbit.avg_deads}</Text>
+                            </View>
+                            <View style={styles.container}>
+                                <View style={{backgroundColor: 'black', height: 2, flex: 1, alignSelf: 'center'}} />
+                                <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 24, color: Colors.tertiary }}>Géniteurs</Text>
+                                <View style={{backgroundColor: 'black', height: 2, flex: 1, alignSelf: 'center'}} />
+                            </View>
                             
-                            <TouchableOpacity
-                                style={{alignSelf: 'flex-end'}}
-                                onPress={()=>{this.promptDelete(rabbit, deleteRabbitInStore)}}
-                            >
-                                <Icon name="close" size={30} color='red'/>
-                            </TouchableOpacity>
+                            <View style={{flexDirection:'row', justifyContent: 'space-evenly', marginVertical:4}}>
+                                <Text style={{
+                                    fontSize: 18,
+                                    color: blue,
+                                    fontWeight: '600',
+                                    fontFamily: 'Robotto'}}>{rabbit.father}</Text>
+                                <LineH style={{backgroundColor: Colors.tertiary}}/>
+                                <Text style={{
+                                    fontSize: 18,
+                                    color: pink,
+                                    fontWeight: '600',
+                                    fontFamily: 'Robotto'}}>{rabbit.mother}</Text>
+                            </View>
+                        
                         </View>
-                        <View style={styles.container}>
-                            <Text style={styles.label}>Date de naissance: </Text>
-                            <Text style={styles.value}>{moment(new Date(rabbit.dateOfbirth)).format('DD/MM/YYYY')}</Text>
-                        </View>
-                        <View style={styles.container}>
-                            <Text style={styles.label}>Sexe: </Text>
-                            <Text style={styles.value}>{rabbit.gender==='M'? 'Mâle': 'Femelle'}</Text>
-                        </View>
-                        <View style={styles.container}>
-                            <Text style={styles.label}>Père: </Text>
-                            <Text style={styles.value}>{rabbit.father}</Text>
-                        </View>
-                        <View style={styles.container}>
-                            <Text style={styles.label}>Mère: </Text>
-                            <Text style={styles.value}>{rabbit.mother}</Text>
-                        </View>
-                        <View style={styles.container}>
-                            <Text style={styles.label}>Moyenne nés vivants: </Text>
-                            <Text style={styles.value}>{rabbit.avg_alive}</Text>
-                        </View>
-                        <View style={styles.container}>
-                            <Text style={styles.label}>Moyenne mort-nés: </Text>
-                            <Text style={styles.value}>{rabbit.avg_deads}</Text>
-                        </View>
-                  </View>
-
-                    
+                    </CardView>
+   
               </TouchableOpacity>
            </FadeIn>
         )
@@ -126,21 +129,19 @@ class RabbitItem extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flexDirection:'row',
-        alignItems:'center',
-        paddingVertical: 5,
-    },
+    container:{flexDirection:'row', justifyContent: 'space-between', marginVertical:4},
 
     label: {
-        fontSize: 16,
-        color: 'black',
-        fontWeight: 'bold'
+        fontSize: 18,
+        color: Colors.lightBlue,
+        fontFamily: 'Robotto'
     },
     value: {
-        fontSize: 16,
+        fontSize: 18,
         color: 'black',
-        fontWeight: 'normal'
+        fontWeight: '600',
+        fontFamily: 'Robotto'
+
     }
 })
 

@@ -271,12 +271,13 @@ class SignUp extends React.Component{
                     </InnerContainer>
                     <Line />
                     <ExtraView>
-                        <ExtraText>Already have an account?</ExtraText>
+                        <ExtraText>Vous avez déjà un compte?</ExtraText>
                         <TextLink>
                             <TextLinkContent
                                 onPress={()=>this.props.navigation.replace('Login')}
+                                style={{color: Colors.blue}}
                             >
-                                Login
+                                Se connecter
                             </TextLinkContent>
                         </TextLink>
                     </ExtraView>

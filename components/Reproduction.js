@@ -16,7 +16,7 @@ class Reproduction extends React.Component{
     }
 
     _displayDetailForReproduction = (reproduction) => {
-        this.props.navigation.navigate('ReproductionDetail', {
+        this.props.navigation.replace('ReproductionDetail', {
             reproduction: {...reproduction, dateOfReproduction:reproduction.dateOfReproduction.toDateString()},
         })
     }

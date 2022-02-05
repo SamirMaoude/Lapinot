@@ -10,12 +10,14 @@ export const Colors = {
     secondary: '#E5E7EB',
     tertiary: '#1F2937',
     darkLight: '#9CA3AF',
-    brand: '#602809',
+    brand: '#1F2937',
     green: '#10B981',
     red: '#EF4444',
     pink: '#FF69B4',
     blue: '#009DFF' ,
-    redLight: '#ff6766'  
+    redLight: '#ff6766'  ,
+    lightBlue: '#377BBB',
+    warning: '#FFCC00'
 };
 
 const {primary, primaryLight, secondary, tertiary, darkLight, brand, green, red} = Colors;
@@ -85,7 +87,7 @@ export const LeftIcon = styled.View`
 
 export const RightIcon = styled.TouchableOpacity`
     right: 15px;
-    top: 38px;
+    top: 30px;
     position: absolute;
     z-index: 1;
 `;
