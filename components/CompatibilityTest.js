@@ -162,7 +162,7 @@ class CompatibilityTest extends React.Component{
                             }}
                             onSubmit={(values, {setSubmitting})=>{
                                 this.setState({
-                                    isCompatible: testCompatibility(values.maleRabbit,values.femaleRabbit,this.props.rabbitsList, this.props.coupleList)
+                                    isCompatible: testCompatibility(values.maleRabbit,values.femaleRabbit,this.props.rabbitsList)
                                 },()=>this.promptVerdict(setSubmitting))
                                 
                             }}
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     return {
         rabbitsList: state.rabbitManager.rabbitsList,
-        coupleList: state.coupleManager.coupleList
+
     }
 }
 

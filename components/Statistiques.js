@@ -228,7 +228,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     return {
         rabbitsList: state.rabbitManager.rabbitsList,
-        coupleList: state.coupleManager.coupleList,
         reproductionsList: state.reproductionManager.reproductionsList
     }
 }

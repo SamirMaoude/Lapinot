@@ -150,15 +150,7 @@ class AddReproduction extends React.Component{
 
     }
 
-    _addCoupleToStore = (couple) =>{
-
-        const action = {
-            type: 'ADD_COUPLE',
-            value: couple
-        }
-
-        this.props.dispatch(action)
-    }
+    
 
     render(){
         return(
@@ -199,7 +191,7 @@ class AddReproduction extends React.Component{
                                 }
 
 
-                                addReproduction(reproduction,this._addCoupleToStore,this._addReproductionToStore)
+                                addReproduction(reproduction ,this._addReproductionToStore)
                                 
                             }}
                             validationSchema={addRabbitValidationSchema}
@@ -299,7 +291,7 @@ class AddReproduction extends React.Component{
 const mapStateToProps = (state) => {
     return {
         rabbitsList: state.rabbitManager.rabbitsList,
-        coupleList: state.coupleManager.coupleList
+
     }
 }
 

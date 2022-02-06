@@ -16,12 +16,18 @@ export function randomAnimation(){
 // of a graph.
 let V;
 let adj=new Map();
-
+let visited = new Array();
+let tempAncestors = new Array()
 function Graph(rabbits)
 {
 		V = rabbits.length
+        adj=new Map();
+        visited = new Array();
+        tempAncestors = new Array()
+
         for(let i=0; i<rabbits.length; i++){
             adj.set(rabbits[i].id, [])
+            visited[rabbits[i].id] = false;
         }
 }
 
@@ -32,75 +38,62 @@ function addEdge(rabbit)
     let mId = rabbit.motherId
     if(fId!==''){
         adj.set(rabbit.id,[...adj.get(rabbit.id),fId])
-        adj.set(fId,[...adj.get(fId),rabbit.id])
     }
         
 
     if(mId!==''){
         adj.set(rabbit.id,[...adj.get(rabbit.id),mId])
-        adj.set(mId,[...adj.get(mId),rabbit.id])
     }
     
 
 }
 
-// prints BFS traversal from a given source s
-function isReachable(s,d,rabbits)
-{
-	let temp;
 
-		// Mark all the vertices as not visited(By default set
-		// as false)
-		let visited = new Array(V);
-		for(let i = 0; i < V; i++)
-			visited[rabbits[i].id] = false;
-			
-		// Create a queue for BFS
-		let queue = [];
+function dfs(u){
 
-		// Mark the current node as visited and enqueue it
-		visited[s] = true;
-		queue.push(s);
+    if(visited[u]) return
 
-		while (queue.length != 0)
-		{
-			// Dequeue a vertex from queue and print it
-			n = queue.shift();
-			
-			if(n == d)
-				return true;
-            let position = adj.get(n)
-			for(let i = 0; i < position.length; i++)
-			{
-				if (visited[position[i]] == false)
-				{
-					queue.push(position[i]);
-					visited[position[i]] = true;
-				}
-			}
-			
-		}
-
-		// If BFS is complete without visited d
-		return false;
+    visited[u] = true;
+    tempAncestors.push(u);
+    let pos = adj.get(u)
+    for(let i=0; i< pos.length; i++){
+        dfs(pos[i]);
+    }
+    
 }
 
 
 
 
 
-export const testCompatibility = (maleId,femaleId, rabbits, couples) => {
 
-    if(couples.filter((item)=>item.male===maleId && item.female===femaleId).length>0){
-        return false
-    }
+export const testCompatibility = (maleId,femaleId, rabbits) => {
+
+    let maleAncestors = []
+    let femaleAncestors = []
     Graph(rabbits)
+    for(let i=0; i<rabbits.length; i++){
+        addEdge(rabbits[i]);
+    }
+    dfs(maleId)
+    maleAncestors = tempAncestors;
 
+
+    Graph(rabbits)
     for(let i=0; i<rabbits.length; i++){
         addEdge(rabbits[i]);
     }
 
-    return isReachable(maleId, femaleId,rabbits)
+    dfs(femaleId)
+    femaleAncestors = tempAncestors;
+
+    for(let rabbit of maleAncestors){
+        if(femaleAncestors.includes(rabbit)){
+            return true;
+        }
+    }
+
+    return false
 }
 
 

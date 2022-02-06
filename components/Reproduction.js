@@ -77,7 +77,6 @@ class Reproduction extends React.Component{
 const mapStateToProps = (state) => {
     return {
         rabbitsList: state.rabbitManager.rabbitsList,
-        coupleList: state.coupleManager.coupleList,
         reproductionsList: state.reproductionManager.reproductionsList
     }
 }

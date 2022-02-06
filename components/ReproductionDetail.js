@@ -152,15 +152,7 @@ class ReproductionDetail extends React.Component{
 
     }
 
-    _addCoupleToStore = (couple) =>{
-
-        const action = {
-            type: 'ADD_COUPLE',
-            value: couple
-        }
-
-        this.props.dispatch(action)
-    }
+    
 
     render(){
         return(
@@ -201,7 +193,7 @@ class ReproductionDetail extends React.Component{
                                 }
 
                                 setReproduction(this.reproduction.id, reproduction, setSubmitting, this._setReproductionInStore)
-                                //addReproduction(reproduction,this._addCoupleToStore,this._addReproductionToStore)
+                                
                                 
                             }}
                             validationSchema={addRabbitValidationSchema}
@@ -278,8 +270,8 @@ class ReproductionDetail extends React.Component{
                                     />
                                     
                                     
-                                    {!isSubmitting && <StyledButton onPress={handleSubmit}>
-                                        <ButtonText>Ajouter</ButtonText>
+                                    {!isSubmitting && <StyledButton onPress={handleSubmit} style={{backgroundColor: Colors.blue}}>
+                                        <ButtonText>Mettre à jour</ButtonText>
                                     </StyledButton>}
                                     {isSubmitting && <StyledButton disabled={true}>
                                         <ActivityIndicator size="large" color={primary}/>
@@ -301,7 +293,7 @@ class ReproductionDetail extends React.Component{
 const mapStateToProps = (state) => {
     return {
         rabbitsList: state.rabbitManager.rabbitsList,
-        coupleList: state.coupleManager.coupleList
+
     }
 }
 

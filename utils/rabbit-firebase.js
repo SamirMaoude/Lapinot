@@ -3,7 +3,7 @@ import { doc, setDoc, addDoc, collection, getDocs, deleteDoc } from "firebase/fi
 
 const rabbitRef = collection(db, 'rabbits')
 
-export const addRabbit = async (rabbitCode, dateOfbirth, gender, fatherId, motherId, setSubmitting, _addRabbitToStore, _addCoupleToStore) => {
+export const addRabbit = async (rabbitCode, dateOfbirth, gender, fatherId, motherId, setSubmitting, _addRabbitToStore) => {
     let rabbit = {
         rabbitCode: rabbitCode,
         dateOfbirth: dateOfbirth,
@@ -14,9 +14,7 @@ export const addRabbit = async (rabbitCode, dateOfbirth, gender, fatherId, mothe
     }
     
     await addDoc(rabbitRef,rabbit, { merge: true }).then((docRef)=>{
-        if(fatherId!=='' && motherId!=''){
-            _addCoupleToStore({male:fatherId,female:motherId})
-        }
+        
         _addRabbitToStore({...rabbit, id:docRef.id})
 
       }).catch((e)=>{
@@ -29,7 +27,7 @@ export const addRabbit = async (rabbitCode, dateOfbirth, gender, fatherId, mothe
     setSubmitting(false);
 };
 
-export const setRabbit = async(id,rabbitCode, dateOfbirth, gender, fatherId, motherId, setSubmitting, _setRabbitInStore, _addCoupleToStore) => {
+export const setRabbit = async(id,rabbitCode, dateOfbirth, gender, fatherId, motherId, setSubmitting, _setRabbitInStore) => {
 
     let rabbit = {
         rabbitCode: rabbitCode,
@@ -41,9 +39,6 @@ export const setRabbit = async(id,rabbitCode, dateOfbirth, gender, fatherId, mot
     }
 
     await setDoc(doc(db,'rabbits',id), rabbit).then((docRef)=>{
-        if(fatherId!=='' && motherId!=''){
-            _addCoupleToStore({fatherId,motherId})
-        }
         _setRabbitInStore({...rabbit, id:id})
     }).catch((e)=>{
         console.log(e)

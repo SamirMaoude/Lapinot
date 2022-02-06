@@ -135,15 +135,7 @@ class AddRabbit extends React.Component{
 
     }
 
-    _addCoupleToStore = (couple) =>{
-
-        const action = {
-            type: 'ADD_COUPLE',
-            value: couple
-        }
-
-        this.props.dispatch(action)
-    }
+    
 
     _displayLoading(){
         if(this.state.isLoading){
@@ -194,7 +186,7 @@ class AddRabbit extends React.Component{
                             }}
                             onSubmit={(values, {setSubmitting})=>{
                                 values = {...values, dateOfBirth: this.state.dob}
-                                addRabbit(values.rabbitCode, this.state.dob, values.gender, values.fatherId, values.motherId, setSubmitting, this._addRabbitToStore, this._addCoupleToStore)
+                                addRabbit(values.rabbitCode, this.state.dob, values.gender, values.fatherId, values.motherId, setSubmitting, this._addRabbitToStore)
                             }}
                             validationSchema={addRabbitValidationSchema}
                         > 
@@ -292,7 +284,6 @@ class AddRabbit extends React.Component{
 const mapStateToProps = (state) => {
     return {
         rabbitsList: state.rabbitManager.rabbitsList,
-        coupleList: state.coupleManager.coupleList
     }
 }
 

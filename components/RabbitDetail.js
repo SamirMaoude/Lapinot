@@ -182,14 +182,7 @@ class RabbitDetail extends React.Component{
 
     }
 
-    _addCoupleToStore = (couple) =>{
-        const action = {
-            type: 'ADD_COUPLE',
-            value: couple
-        }
 
-        this.props.dispatch(action)
-    }
 
     
         
@@ -243,7 +236,7 @@ class RabbitDetail extends React.Component{
                                         },
                                         {
                                             text: "Oui",
-                                            onPress: () => setRabbit(this.rabbit.id,values.rabbitCode, this.state.dob, values.gender, values.fatherId, values.motherId, setSubmitting, this._setRabbitInStore, this._addCoupleToStore),
+                                            onPress: () => setRabbit(this.rabbit.id,values.rabbitCode, this.state.dob, values.gender, values.fatherId, values.motherId, setSubmitting, this._setRabbitInStore),
                                         },
                                     ],
                                     {
@@ -383,7 +376,6 @@ class RabbitDetail extends React.Component{
 const mapStateToProps = (state) => {
     return {
         rabbitsList: state.rabbitManager.rabbitsList,
-        coupleList: state.coupleManager.coupleList,
         reproductionsList: state.reproductionManager.reproductionsList
     }
 }

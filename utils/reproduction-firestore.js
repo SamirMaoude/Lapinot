@@ -3,11 +3,10 @@ import { doc, setDoc, addDoc, collection, getDocs, deleteDoc } from "firebase/fi
 
 const reproductionRef = collection(db, 'reproductions')
 
-export const addReproduction = async (reproduction, _addCoupleToStore, _addReproductionToStore)=>{
+export const addReproduction = async (reproduction, _addReproductionToStore)=>{
 
     await addDoc(reproductionRef,{...reproduction, userId:authentication.currentUser.uid}, { merge: true }).then((docRef)=>{
         
-        _addCoupleToStore({male:reproduction.maleId,female:reproduction.femaleId})
         _addReproductionToStore({...reproduction, id:docRef.id, userId:authentication.currentUser.uid})
 
       }).catch((e)=>{
