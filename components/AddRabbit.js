@@ -39,6 +39,7 @@ import { addRabbit, getRabbits, getFemaleRabbits, getMaleRabbits } from "../util
 //DateTimePicker
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { SafeAreaView } from "react-native-safe-area-context";
+import { notifyMessage } from "../utils/Utils";
 
 const {brand, darkLight, primary} = Colors;
 
@@ -131,6 +132,8 @@ class AddRabbit extends React.Component{
 
         this.props.dispatch(action)
 
+        notifyMessage('Lapin ajouté avec succès');
+
         this.props.navigation.replace('RabbitList');
 
     }
@@ -154,6 +157,20 @@ class AddRabbit extends React.Component{
             )
         }
 
+    }
+
+    _addRabbit = (rabbitCode, dateOfbirth, gender, fatherId, motherId, setSubmitting, _addRabbitToStore)=>{
+
+        let existing_rabbit = this.props.rabbitsList.filter((item)=>item.rabbitCode.toLowerCase()==rabbitCode.toLowerCase())
+        if(existing_rabbit.length>0){
+            notifyMessage('Code utilisé');
+            setSubmitting(false);
+            return;
+        }
+
+        addRabbit(rabbitCode, dateOfbirth, gender, fatherId, motherId, setSubmitting, _addRabbitToStore);
+        
+        
     }
 
     render(){
@@ -186,7 +203,7 @@ class AddRabbit extends React.Component{
                             }}
                             onSubmit={(values, {setSubmitting})=>{
                                 values = {...values, dateOfBirth: this.state.dob}
-                                addRabbit(values.rabbitCode, this.state.dob, values.gender, values.fatherId, values.motherId, setSubmitting, this._addRabbitToStore)
+                                this._addRabbit(values.rabbitCode, this.state.dob, values.gender, values.fatherId, values.motherId, setSubmitting, this._addRabbitToStore)
                             }}
                             validationSchema={addRabbitValidationSchema}
                         > 

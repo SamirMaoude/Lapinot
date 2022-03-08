@@ -20,12 +20,7 @@ class Home extends React.Component {
 
             <SafeAreaView style={styles.homeStyle}>
                 <Boxes navigation={this.props.navigation}/>
-                <TouchableOpacity
-                    style={styles.floatingButton}
-                    onPress={()=>this.props.navigation.navigate('AddRabbit')}
-                >
-                    <Icon name="ios-add-circle-sharp" size={50} color={Colors.blue} />
-                </TouchableOpacity>
+                
             </SafeAreaView>
         )
     }
@@ -36,15 +31,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#ffffff',
     },
-    floatingButton: {
-        position: 'absolute',
-        width: 50,
-        height: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        right: 30,
-        bottom: 30
-    }
 })
 
 export default Home;

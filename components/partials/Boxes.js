@@ -1,6 +1,8 @@
 import React from "react";
-import {View, StyleSheet, Text, SafeAreaView, ScrollView} from "react-native"
+import {View, StyleSheet, Text, SafeAreaView, ScrollView, TouchableOpacity} from "react-native"
 import Box from "./Box";
+import Icon from 'react-native-vector-icons/Ionicons'
+import {Colors} from './styles'
 
 
 class Boxes extends React.Component{
@@ -41,6 +43,12 @@ class Boxes extends React.Component{
                     navigation={this.props.navigation}
                     navigateTo='Vaccination'
                 ></Box>
+                <TouchableOpacity
+                    style={styles.floatingButton}
+                    onPress={()=>this.props.navigation.navigate('AddRabbit')}
+                >
+                    <Icon name="ios-add-circle-sharp" size={50} color={Colors.blue} />
+                </TouchableOpacity>
             </ScrollView>
         )
     }
@@ -55,7 +63,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
 
+    },
+    floatingButton: {
+        position: 'absolute',
+        width: 50,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 30,
+        bottom: 30
     }
 })
+
 
 export default Boxes;

@@ -15,6 +15,7 @@ import CompatibilityTest from '../components/CompatibilityTest'
 import Vaccination from '../components/Vaccination'
 import RabbitClassement from '../components/RabbitClassement'
 import Statistiques from '../components/Statistiques'
+import BackupList from "../components/BackupList";
 import { Line } from "../components/partials/styles";
 
 const Drawer = createDrawerNavigator();
@@ -88,6 +89,7 @@ const HomeNavigator = () => {
                     })} name="Vaccinations" component={Vaccination} />
             <Drawer.Screen name="Classement" component={RabbitClassement} />
             <Drawer.Screen name="Statistiques" component={Statistiques} />
+            <Drawer.Screen name="Sauvegardes" component={BackupList} />
         </Drawer.Navigator>
     )
     

@@ -1,3 +1,5 @@
+import {Platform, ToastAndroid, AlertIOS} from 'react-native'
+
 export function randomAnimation(){
     animations = [
         //require('../assets/splash.json'),
@@ -175,3 +177,12 @@ export const sorted_rabbits = (rabbits, reproductions)=>{
     
     return list
 }
+
+
+export function notifyMessage(msg) {
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(msg, ToastAndroid.SHORT)
+    } else {
+      AlertIOS.alert(msg);
+    }
+  }
