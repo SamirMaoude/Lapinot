@@ -37,6 +37,16 @@ function rabbitManager(state=initialState, action){
 
             return nextState || state
 
+        case 'RESTORE_RABBIT':
+            nextState = {
+                ...state,
+                rabbitsList: action.value
+            }
+            
+        
+            return nextState || state
+
+
         default:
 
             return state

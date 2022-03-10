@@ -36,6 +36,15 @@ function reproductionManager(state=initialState, action){
             }
 
             return nextState || state
+            
+        case 'RESTORE_REPRODUCTION':
+            nextState = {
+                ...state,
+                reproductionsList: action.value
+            }
+            
+        
+            return nextState || state
 
         default:
 

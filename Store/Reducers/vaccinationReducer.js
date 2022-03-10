@@ -14,6 +14,15 @@ function vaccinationManager(state=initialState, action){
             
         
             return nextState || state
+
+        case 'RESTORE_VACCINATION':
+            nextState = {
+                ...state,
+                vaccinationsList: action.value
+            }
+            
+        
+            return nextState || state
         case 'DELETE_VACCINATION':
             vaccinationIndex = state.vaccinationsList.findIndex(item => item.id===action.value.id)
 

@@ -9,17 +9,21 @@ class Backup extends React.Component{
             <View style={styles.item}>
                 <View style={styles.itemLeft}>
                     <View style={styles.square}></View>
-                    <Text>{this.props.text}</Text>
+                    <Text>{this.props.backup.name}</Text>
                 </View>
                 <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.props.deleteBackup(this.props.backup.id)}
+                    >
                         <MaterialCommunityIcons
                             name='delete-restore'
                             color={Colors.red} 
                             size={40}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.props.restoreBackup(this.props.backup)}
+                    >
                         <MaterialCommunityIcons
                             name='backup-restore'
                             color={Colors.blue} 

@@ -1,10 +1,12 @@
 import { authentication, db } from "../firebase/firebase-config"
 import { doc, setDoc, addDoc, collection, getDocs, deleteDoc } from "firebase/firestore/lite"; 
+import { generateUUID } from "./Utils";
 
 const rabbitRef = collection(db, 'rabbits')
 
 export const addRabbit = async (rabbitCode, dateOfbirth, gender, fatherId, motherId, setSubmitting, _addRabbitToStore) => {
     let rabbit = {
+        id: generateUUID(),
         rabbitCode: rabbitCode,
         dateOfbirth: dateOfbirth,
         gender: gender,
@@ -13,17 +15,10 @@ export const addRabbit = async (rabbitCode, dateOfbirth, gender, fatherId, mothe
         userId: authentication.currentUser.uid
     }
     
-    await addDoc(rabbitRef,rabbit, { merge: true }).then((docRef)=>{
+    
         
-        _addRabbitToStore({...rabbit, id:docRef.id})
+    _addRabbitToStore(rabbit)
 
-      }).catch((e)=>{
-          console.log(e)
-      })
-
-      
-    
-    
     setSubmitting(false);
 };
 
@@ -38,21 +33,16 @@ export const setRabbit = async(id,rabbitCode, dateOfbirth, gender, fatherId, mot
         userId: authentication.currentUser.uid
     }
 
-    await setDoc(doc(db,'rabbits',id), rabbit).then((docRef)=>{
-        _setRabbitInStore({...rabbit, id:id})
-    }).catch((e)=>{
-        console.log(e)
-    })
+
+    _setRabbitInStore({...rabbit, id:id})
+    
     setSubmitting(false);
 
 }
 
 export const deleteRabbit = async (id, _deleteRabbitInStore)=>{
-    const docRef = doc(db, 'rabbits', id);
-
-    await deleteDoc(docRef).then((docRef)=>{
-        _deleteRabbitInStore(id);
-    }); 
+    
+    _deleteRabbitInStore(id);
 }
 
 export const getRabbits = async ()=>{

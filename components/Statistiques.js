@@ -13,7 +13,7 @@ class Statistiques extends React.Component{
         super(props);
         this.rabbitsSize = this.props.rabbitsList.length
         this.femaleRabbitSize = this.props.rabbitsList.filter((item)=>item.gender=='F').length
-        this.maleRabbitSize = this.rabbitsSize - this.femaleRabbitSize
+        this.maleRabbitSize = this.props.rabbitsList.length - this.props.rabbitsList.filter((item)=>item.gender=='F').length
         this.state = {
             avg_alive: 0,
             avg_deads: 0
@@ -50,7 +50,7 @@ class Statistiques extends React.Component{
                                     fontSize: 35,
                                     color: 'orange',
                                     fontWeight: 'bold'
-                                }}>{this.rabbitsSize}</Text>
+                                }}>{this.props.rabbitsList.length}</Text>
                                 <Text style={{
                                     fontSize: 18,
                                     color: 'white',
@@ -101,7 +101,7 @@ class Statistiques extends React.Component{
                                     fontSize: 35,
                                     color: Colors.blue,
                                     fontWeight: 'bold'
-                                }}>{this.maleRabbitSize}</Text>
+                                }}>{this.props.rabbitsList.length - this.props.rabbitsList.filter((item)=>item.gender=='F').length}</Text>
                                 <Text style={{
                                     fontSize: 18,
                                     color: 'white',
@@ -127,7 +127,7 @@ class Statistiques extends React.Component{
                                     fontSize: 35,
                                     color: Colors.pink,
                                     fontWeight: 'bold'
-                                }}>{this.femaleRabbitSize}</Text>
+                                }}>{this.props.rabbitsList.filter((item)=>item.gender=='F').length}</Text>
                                 <Text style={{
                                     fontSize: 18,
                                     color: 'white',
