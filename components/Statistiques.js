@@ -5,6 +5,7 @@ import FadeIn from '../Animations/FadeIn'
 import CardView from './partials/CardView'
 import {Colors, Line, LineH} from './partials/styles'
 import { globalStats } from '../utils/Utils'
+import { authentication } from "../firebase/firebase-config";
 
 const {blue, pink, green, red} = Colors
 
@@ -227,8 +228,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        rabbitsList: state.rabbitManager.rabbitsList,
-        reproductionsList: state.reproductionManager.reproductionsList
+        rabbitsList: state.rabbitManager.rabbitsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid),
+        reproductionsList: state.reproductionManager.reproductionsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid)
     }
 }
 

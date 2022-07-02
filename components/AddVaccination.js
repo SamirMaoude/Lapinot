@@ -226,7 +226,7 @@ class AddVaccination extends React.Component{
 
 const mapStateToProps = (state) => {
     return {
-        vaccinationsList: state.vaccinationManager.vaccinationsList
+        vaccinationsList: state.vaccinationManager.vaccinationsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid)
     }
 }
 

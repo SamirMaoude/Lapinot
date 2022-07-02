@@ -8,6 +8,7 @@ import { loadBundle } from "firebase/firestore";
 import SuperHeader from "./partials/SuperHeader";
 import RadioGroup, {RadioButtonProps} from 'react-native-radio-buttons-group';
 import { useIsFocused } from '@react-navigation/native';
+import { authentication } from "../firebase/firebase-config";
 
 // TODO: Refresh after goBack
 const radioButtonsData = [
@@ -197,8 +198,8 @@ class RabbitList extends React.Component{
 
 const mapStateToProps = (state) => {
     return {
-        rabbitsList: state.rabbitManager.rabbitsList,
-        reproductionsList: state.reproductionManager.reproductionsList,
+        rabbitsList: state.rabbitManager.rabbitsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid),
+        reproductionsList: state.reproductionManager.reproductionsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid),
     }
 }
 

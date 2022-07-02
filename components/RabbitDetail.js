@@ -211,6 +211,7 @@ class RabbitDetail extends React.Component{
                                 is24Hour={true}
                                 display="default"
                                 onChange={this.onChange}
+                                maximumDate={new Date()}
                             />
                         )}
                         <Formik
@@ -375,8 +376,8 @@ class RabbitDetail extends React.Component{
 
 const mapStateToProps = (state) => {
     return {
-        rabbitsList: state.rabbitManager.rabbitsList,
-        reproductionsList: state.reproductionManager.reproductionsList
+        rabbitsList: state.rabbitManager.rabbitsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid),
+        reproductionsList: state.reproductionManager.reproductionsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid)
     }
 }
 

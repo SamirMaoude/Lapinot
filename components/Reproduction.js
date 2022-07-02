@@ -2,6 +2,7 @@ import React from "react";
 import { View, SafeAreaView , FlatList} from "react-native";
 import { connect } from "react-redux";
 import ReproductionItem from "./partials/ReproductionItem";
+import { authentication } from "../firebase/firebase-config";
 
 
 class Reproduction extends React.Component{
@@ -76,8 +77,8 @@ class Reproduction extends React.Component{
 
 const mapStateToProps = (state) => {
     return {
-        rabbitsList: state.rabbitManager.rabbitsList,
-        reproductionsList: state.reproductionManager.reproductionsList
+        rabbitsList: state.rabbitManager.rabbitsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid),
+        reproductionsList: state.reproductionManager.reproductionsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid)
     }
 }
 

@@ -104,6 +104,7 @@ class BackupList extends React.Component{
                 ...doc.data()
             }
 
+            if(backup.userId===authentication.currentUser.uid)
             backupsList.push(backup)
         }
 
@@ -260,9 +261,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        rabbitsList: state.rabbitManager.rabbitsList,
-        reproductionsList: state.reproductionManager.reproductionsList,
-        vaccinationsList: state.vaccinationManager.vaccinationsList
+        rabbitsList: state.rabbitManager.rabbitsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid),
+        reproductionsList: state.reproductionManager.reproductionsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid),
+        vaccinationsList: state.vaccinationManager.vaccinationsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid)
     }
 }
 

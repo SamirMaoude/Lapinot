@@ -173,6 +173,7 @@ class ReproductionDetail extends React.Component{
                                 is24Hour={true}
                                 display="default"
                                 onChange={this.onChange}
+                                maximumDate={new Date()}
                             />
                         )}
                         <Formik
@@ -292,7 +293,7 @@ class ReproductionDetail extends React.Component{
 
 const mapStateToProps = (state) => {
     return {
-        rabbitsList: state.rabbitManager.rabbitsList,
+        rabbitsList: state.rabbitManager.rabbitsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid),
 
     }
 }

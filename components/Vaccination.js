@@ -2,6 +2,7 @@ import React from "react";
 import { SafeAreaView, FlatList, ActivityIndicator, View } from "react-native";
 import {connect} from 'react-redux'
 import VaccinationItem from "./partials/VaccinationItem";
+import { authentication } from "../firebase/firebase-config";
 
 
 class Vaccination extends React.Component{
@@ -29,7 +30,7 @@ class Vaccination extends React.Component{
 
     _displayDetailForVaccination = (vaccination) => {
         this.props.navigation.replace('VaccinationDetail', {
-            vaccination: {...vaccination, dateOfVac:vaccination.dateOfVac.toDateString()},
+            vaccination: {...vaccination, dateOfVac:vaccination.dateOfVac},
         })
     }
 
@@ -77,7 +78,7 @@ class Vaccination extends React.Component{
 
 const mapStateToProps = (state) => {
     return {
-        vaccinationsList: state.vaccinationManager.vaccinationsList
+        vaccinationsList: state.vaccinationManager.vaccinationsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid)
     }
 }
 

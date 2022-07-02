@@ -34,6 +34,7 @@ import LottieView from 'lottie-react-native'
 import {connect} from 'react-redux'
 import moment from "moment";
 
+
 //Reproduction
 import { addReproduction } from "../utils/reproduction-firestore";
 
@@ -171,6 +172,7 @@ class AddReproduction extends React.Component{
                                 is24Hour={true}
                                 display="default"
                                 onChange={this.onChange}
+                                maximumDate={new Date()}
                             />
                         )}
                         <Formik
@@ -290,7 +292,7 @@ class AddReproduction extends React.Component{
 
 const mapStateToProps = (state) => {
     return {
-        rabbitsList: state.rabbitManager.rabbitsList,
+        rabbitsList: state.rabbitManager.rabbitsList.filter((rabbit)=>rabbit.userId===authentication.currentUser.uid),
 
     }
 }
